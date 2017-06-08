@@ -1,0 +1,52 @@
+apply plugin: 'docker-compose'
+apply from: 'libs.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.avast.gradle:docker-compose-gradle-plugin:0.3.22"
+    }
+}
+
+sourceSets {
+    jobs {
+        groovy {
+            srcDirs 'jobs'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile 'xmlunit:xmlunit:1.6'
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
+
+wrapper {
+    gradleVersion '3.5'
+}
+
+// Jenkins
+task startJenkins(dependsOn: [composeUp]) {
+    group = "Jenkins"
+    description = "Starts Jenkins via Docker Compose"
+}
+
+task stopJenkins(dependsOn: [composeDown]) {
+    group = "Jenkins"
+    description = "Stops Jenkins via Docker Compose"
+}

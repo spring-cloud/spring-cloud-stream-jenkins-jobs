@@ -1,0 +1,67 @@
+= Spring Cloud Jenkins DSL
+
+The repository contains job definitions using https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin[Jenkins Job Dsl plugin].
+
+== How to build it
+
+`./gradlew clean build`
+
+WARNING: The ran test only checks if your scripts compile.
+
+== How to use it in Jenkins?
+
+Check out the https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL[tutorial].
+Provide the link to this repository in your Jenkins installation.
+
+The seed job for Spring Cloud should scan the `jobs/springcloud/*.groovy` files.
+
+Remember to add `src/main/groovy` and `src/main/resources` for processing
+
+= Jenkins
+
+The Gradle build comes with some useful tasks (run `./gradlew tasks` to see the whole list). Let's focus on
+the following ones
+
+```
+Jenkins tasks
+-------------
+startJenkins - Starts Jenkins via Docker Compose
+stopJenkins - Stops Jenkins via Docker Compose
+```
+
+= Running Jenkins
+
+Just run 
+
+[source]
+----
+docker-compose up -d
+----
+
+or
+
+[source]
+----
+./gradlew startJenkins
+----
+
+and your jenkins with plugins present in `plugins.txt` will be ready at port 8080. 
+
+In order to download the latest plugins:
+
+[source]
+----
+1) Open in your browser
+http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" 
+2) Store the XML to a file
+3) Pipe the contents of the file to this command:
+perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
+4) Store it as plugins.txt
+----
+
+Wait patiently for Jenkins to start - the job will be added automatically for you.
+
+IMPORTANT: We're using the JMH Jenkins plugin which is not available anywhere in the marketplace.
+We're trying to automate its installation but if it fails you can download the HPI from
+https://bintray.com/marcingrzejszczak/jenkins/download_file?file_path=jmh-jenkins%2F0.0.1%2Fjmhbenchmark.hpi[here]
+and upload it yourself. The tag is in the forked repo over https://github.com/marcingrzejszczak/jmh-jenkins/releases/tag/0.0.1[here]
