@@ -1,4 +1,4 @@
-package org.springframework.jenkins.cloud.springcloudstream.ci
+package org.springframework.jenkins.springcloudstream.ci
 
 import javaposse.jobdsl.dsl.DslFactory
 import org.springframework.jenkins.springcloudstream.common.SpringCloudStreamJobs

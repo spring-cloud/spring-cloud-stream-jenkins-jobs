@@ -1,4 +1,4 @@
-package org.springframework.jenkins.cloud.springcloudstream.common
+package org.springframework.jenkins.springcloudstream.common
 
 import org.springframework.jenkins.common.job.BuildAndDeploy
 
