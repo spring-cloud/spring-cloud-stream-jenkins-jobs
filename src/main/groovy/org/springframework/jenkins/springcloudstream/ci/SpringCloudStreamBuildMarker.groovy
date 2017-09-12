@@ -42,10 +42,12 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.ghPushTrigger = ghPushTrigger
     }
 
+
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U -Pfull,spring",
-                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false) {
+                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false, boolean isRelease = false,
+                String releaseType = "") {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            if (ghPushTrigger) {
+            if (ghPushTrigger && !isRelease) {
                 triggers {
                     githubPush()
                 }
@@ -80,9 +82,12 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (scriptDir != null && startScript != null) {
                     shell(scriptToExecute(scriptDir, startScript))
                 }
-                maven {
-                    mavenInstallation(maven35())
-                    goals(mvnGoals)
+//                maven {
+//                    mavenInstallation(maven35())
+//                    goals(mvnGoals)
+//                }
+                if (!docsBuild) {
+                    shell(cleanAndDeploy())
                 }
                 if (scriptDir != null && stopScript != null) {
                     shell(scriptToExecute(scriptDir, stopScript))
@@ -92,9 +97,19 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
-                        goals('clean install -U -Pfull -Pspring')
+                        if (isRelease && releaseType != null && releaseType.equals("milestone")) {
+                            goals('clean install -U -Pfull -Pspring -Pmilestone')
+                        }
+                        else {
+                            goals('clean install -U -Pfull -Pspring')
+                        }
+                        //goals('clean install -U -Pfull -Pspring')
                     }
-                    artifactoryMaven3Configurator(it as Node)
+                    artifactoryMaven3Configurator(it as Node) {
+                        if (releaseType != null && releaseType.equals("milestone")) {
+                            deployReleaseRepository("libs-milestone-local")
+                        }
+                    }
                 }
 
             }

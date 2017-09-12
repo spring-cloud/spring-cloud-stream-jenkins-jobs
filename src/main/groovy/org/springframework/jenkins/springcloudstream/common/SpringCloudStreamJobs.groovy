@@ -20,4 +20,14 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 						bash ${script}
 					"""
     }
+
+    String cleanAndDeploy() {
+        return """
+					#!/bin/bash -x
+
+			   		./mvnw clean deploy -U -Pfull,spring
+			   """
+
+    }
+
 }
