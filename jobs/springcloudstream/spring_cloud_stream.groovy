@@ -9,7 +9,7 @@ DslFactory dsl = this
 // Master builds (Ditmars)
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                   'spring-cloud-stream-binder-rabbit':'master',
-                                                  'spring-cloud-stream-binder-jms':'master'], true)
+                                                  'spring-cloud-stream-binder-jms':'master'], false)
 // Spring Cloud Stream Elmhurst builds (2.0.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'2.0.x',

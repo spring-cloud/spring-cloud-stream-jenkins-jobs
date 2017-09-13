@@ -116,7 +116,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
             }
             binders.remove('spring-cloud-stream-binder-rabbit')
         }
-        //binders.each { k, v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy() }
+        binders.each { k, v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy() }
         //starter builds
         if (isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
