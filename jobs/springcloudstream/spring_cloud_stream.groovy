@@ -8,8 +8,7 @@ DslFactory dsl = this
 
 // Master builds (Ditmars)
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                  'spring-cloud-stream-binder-rabbit':'master',
-                                                  'spring-cloud-stream-binder-jms':'master'], false)
+                                                  'spring-cloud-stream-binder-rabbit':'master'], false)
 // Spring Cloud Stream Elmhurst builds (2.0.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'2.0.x',
@@ -31,6 +30,12 @@ new SpringCloudStreamBuildMarker(dsl,
                                  "spring-cloud", 
                                  "spring-cloud-stream-binder-google-pubsub", "master", [:])
                       .deploy()
+
+// JMX Binders builds
+new SpringCloudStreamBuildMarker(dsl,
+        "spring-cloud",
+        "spring-cloud-stream-binder-jms", "master", [:])
+        .deploy()
 
 // AWS Kinesis Binders builds
 new SpringCloudStreamBuildMarker(dsl,
