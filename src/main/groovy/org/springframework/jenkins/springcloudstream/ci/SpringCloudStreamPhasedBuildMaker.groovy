@@ -18,10 +18,10 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
     }
 
     void build(String coreBranch = 'master', String releaseTrainBranch = 'master',
-               String groupName = 'spring-cloud-stream-builds', Map<String, String> binders, boolean isRelease) {
+               String groupName = 'spring-cloud-stream-builds', Map<String, String> binders, boolean isRelease, String releaseType) {
         def bindersCopy = [:]
         bindersCopy << binders
-        buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch, isRelease)
+        buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch, isRelease, releaseType)
         dsl.multiJob(groupName) {
             steps {
                 phase('spring-cloud-stream-core-phase', 'COMPLETED') {
@@ -65,15 +65,15 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         }
     }
 
-    void buildAllRelatedJobs(String coreBranch, Map<String, String> binders, String releaseTrainBranch, boolean isRelease) {
+    void buildAllRelatedJobs(String coreBranch, Map<String, String> binders, String releaseTrainBranch, boolean isRelease, String releaseType) {
 
-        //release is only supported on the master branch (only milestones too)
+        //release is only supported on the master branch
 
         if (isRelease) {
             //core build
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream", coreBranch, [:])
                     .deploy(true, false, "",
-                    null, null, null, false, true, "milestone")
+                    null, null, null, false, true, releaseType)
         }
         else {
 
@@ -90,7 +90,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
             if (isRelease) {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
                         .deploy(true, false, "",
-                        null, null, null, false, true, "milestone")
+                        null, null, null, false, true, releaseType)
             }
             else {
 
@@ -106,7 +106,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
                         .deploy(true, false,
                         "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
-                        "docker-compose-RABBITMQ-stop.sh", false, true, "milestone")
+                        "docker-compose-RABBITMQ-stop.sh", false, true, releaseType)
             }
             else {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
@@ -121,7 +121,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         if (isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
                     .deploy(false, true, "clean package -Pspring", null, null, null, true,
-            true, "milestone")
+            true, releaseType)
         }
         else {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)

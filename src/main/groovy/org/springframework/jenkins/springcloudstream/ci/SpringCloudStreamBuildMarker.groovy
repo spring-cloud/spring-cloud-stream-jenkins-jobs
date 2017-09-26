@@ -42,7 +42,6 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.ghPushTrigger = ghPushTrigger
     }
 
-
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U -Pfull,spring",
                 String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false, boolean isRelease = false,
                 String releaseType = "") {
@@ -60,6 +59,14 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     noActivity(300)
                     failBuild()
                     writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+                }
+                if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+                    credentialsBinding {
+                        file('FOO_SEC', "spring-signing-secring.gpg")
+                        file('FOO_PUB', "spring-signing-pubring.gpg")
+                        string('FOO_PASSPHRASE', "spring-gpg-passphrase")
+                        usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
+                    }
                 }
             }
             scm {
@@ -82,13 +89,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (scriptDir != null && startScript != null) {
                     shell(scriptToExecute(scriptDir, startScript))
                 }
-//                maven {
-//                    mavenInstallation(maven35())
-//                    goals(mvnGoals)
-//                }
-                if (!docsBuild) {
-                    shell(cleanAndDeploy())
-                }
+
+                shell(cleanAndDeploy(docsBuild, isRelease, releaseType))
+
                 if (scriptDir != null && stopScript != null) {
                     shell(scriptToExecute(scriptDir, stopScript))
                 }
@@ -97,21 +100,17 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
-                        if (isRelease && releaseType != null && releaseType.equals("milestone")) {
-                            goals('clean install -U -Pfull -Pspring -Pmilestone')
-                        }
-                        else {
-                            goals('clean install -U -Pfull -Pspring')
-                        }
-                        //goals('clean install -U -Pfull -Pspring')
+                        goals('clean install -U -Pfull -Pspring')
                     }
                     artifactoryMaven3Configurator(it as Node) {
-                        if (releaseType != null && releaseType.equals("milestone")) {
+                        if (isRelease && releaseType != null && releaseType.equals("milestone")) {
                             deployReleaseRepository("libs-milestone-local")
+                        }
+                        else if (isRelease) {
+                            deployReleaseRepository("libs-release-local")
                         }
                     }
                 }
-
             }
             publishers {
                 if (checkTests) {

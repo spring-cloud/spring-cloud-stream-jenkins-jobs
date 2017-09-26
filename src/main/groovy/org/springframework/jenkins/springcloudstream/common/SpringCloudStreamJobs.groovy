@@ -21,13 +21,46 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 					"""
     }
 
-    String cleanAndDeploy() {
-        return """
-					#!/bin/bash -x
+    String cleanAndDeploy(boolean docsBuild, boolean isRelease, String releaseType) {
 
-			   		./mvnw clean deploy -U -Pfull,spring
-			   """
+        if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+            """
+                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
+                        if [ \$lines -eq 0 ]; then
+                            set +x
+                            ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                            set -x
+                        else
+                            echo "Non release versions found. Aborting build"
+                        fi
+                    """
+        }
+        else if (!docsBuild) {
+            return """
+                ./mvnw clean deploy -U
+            """
+        }
+    }
 
+    String gpgSecRing() {
+        return 'FOO_SEC'
+    }
+
+    String gpgPubRing() {
+        return 'FOO_PUB'
+    }
+
+    String gpgPassphrase() {
+        return 'FOO_PASSPHRASE'
+    }
+
+    String sonatypeUser() {
+        return 'SONATYPE_USER'
+    }
+
+    String sonatypePassword() {
+        return 'SONATYPE_PASSWORD'
     }
 
 }
