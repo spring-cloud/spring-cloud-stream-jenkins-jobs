@@ -41,6 +41,12 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                 ./mvnw clean deploy -U
             """
         }
+        else if(docsBuild) {
+            //just build
+            return """
+                ./mvnw clean package
+            """
+        }
     }
 
     String gpgSecRing() {
