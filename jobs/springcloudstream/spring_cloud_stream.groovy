@@ -9,13 +9,13 @@ DslFactory dsl = this
 boolean masterRelease = false
 String releaseType = "" // possible values are - milestone or ga
 
-// Master builds (Ditmars)
+// Master builds (Elmhurst)
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                   'spring-cloud-stream-binder-rabbit':'master'], masterRelease, releaseType)
-// Spring Cloud Stream Elmhurst builds (2.0.x)
-new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
-                                                ['spring-cloud-stream-binder-kafka':'2.0.x',
-                                                'spring-cloud-stream-binder-rabbit':'2.0.x'], false, "")
+// Spring Cloud Stream Ditmars builds (1.3.x)
+new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Ditmars.x", "spring-cloud-stream-Ditmars-x-builds",
+                                                ['spring-cloud-stream-binder-kafka':'1.3.x',
+                                                'spring-cloud-stream-binder-rabbit':'1.3.x'], false, "")
 // Spring Cloud Stream Chelsea builds (1.2.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("1.2.x", "Chelsea.x", "spring-cloud-stream-Chelsea-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'1.2.x',
@@ -34,7 +34,7 @@ new SpringCloudStreamBuildMarker(dsl,
                                  "spring-cloud-stream-binder-google-pubsub", "master", [:])
                       .deploy()
 
-// JMX Binders builds
+// JMS Binders builds
 new SpringCloudStreamBuildMarker(dsl,
         "spring-cloud",
         "spring-cloud-stream-binder-jms", "master", [:])
