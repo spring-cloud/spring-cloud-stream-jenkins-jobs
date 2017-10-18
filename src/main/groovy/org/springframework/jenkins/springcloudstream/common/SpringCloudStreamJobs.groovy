@@ -36,6 +36,18 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         fi
                     """
         }
+        if (isRelease && releaseType != null && releaseType.equals("milestone")) {
+            """
+                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT" | wc -l)
+                        if [ \$lines -eq 0 ]; then
+                            set +x
+                            ./mvnw clean deploy -Pspring -U
+                            set -x
+                        else
+                            echo "snapshots found. Aborting build"
+                        fi
+                    """
+        }
         else if (!docsBuild) {
             return """
                 ./mvnw clean deploy -U
