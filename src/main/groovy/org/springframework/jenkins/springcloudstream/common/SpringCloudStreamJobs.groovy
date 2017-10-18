@@ -25,7 +25,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
         if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
             """
-                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
+                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                         if [ \$lines -eq 0 ]; then
                             set +x
                             ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
@@ -38,7 +38,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
         }
         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
             """
-                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT" | wc -l)
+                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT" | grep -v regex | wc -l)
                         if [ \$lines -eq 0 ]; then
                             set +x
                             ./mvnw clean deploy -Pspring -U
