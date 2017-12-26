@@ -15,7 +15,7 @@ new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-ka
 // Spring Cloud Stream Ditmars builds (1.3.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Ditmars.x", "spring-cloud-stream-Ditmars-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'1.3.x',
-                                                'spring-cloud-stream-binder-rabbit':'1.3.x'], true, "ga")
+                                                'spring-cloud-stream-binder-rabbit':'1.3.x'], false, "")
 // Spring Cloud Stream Chelsea builds (1.2.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("1.2.x", "Chelsea.x", "spring-cloud-stream-Chelsea-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'1.2.x',
