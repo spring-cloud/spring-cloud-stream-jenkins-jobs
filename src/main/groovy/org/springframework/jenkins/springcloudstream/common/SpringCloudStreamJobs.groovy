@@ -24,7 +24,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
     String cleanAndDeploy(boolean docsBuild, boolean isRelease, String releaseType) {
 
         if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
-            """
+            return """
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                         if [ \$lines -eq 0 ]; then
                             set +x
@@ -37,7 +37,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                     """
         }
         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
-            """
+            return """
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT" | grep -v regex | wc -l)
                         if [ \$lines -eq 0 ]; then
                             set +x
