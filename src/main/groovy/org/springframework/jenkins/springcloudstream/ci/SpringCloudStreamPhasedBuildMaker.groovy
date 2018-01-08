@@ -18,10 +18,12 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
     }
 
     void build(String coreBranch = 'master', String releaseTrainBranch = 'master',
-               String groupName = 'spring-cloud-stream-builds', Map<String, String> binders, boolean isRelease, String releaseType) {
+               String groupName = 'spring-cloud-stream-builds', Map<String, String> binders,
+               boolean isRelease, String releaseType,
+               String sampleRepoVersion = 'master') {
         def bindersCopy = [:]
         bindersCopy << binders
-        buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch, isRelease, releaseType)
+        buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch, isRelease, releaseType, sampleRepoVersion)
         dsl.multiJob(groupName) {
             steps {
                 phase('spring-cloud-stream-core-phase', 'COMPLETED') {
@@ -61,11 +63,21 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         currentJobParameters()
                     }
                 }
+                if (!isRelease) {
+                    phase('spring-cloud-stream-samples-phase') {
+                        String prefixedProjectName = prefixJob("spring-cloud-stream-samples")
+                        phaseJob("${prefixedProjectName}-${sampleRepoVersion}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                    }
+                }
             }
         }
     }
 
-    void buildAllRelatedJobs(String coreBranch, Map<String, String> binders, String releaseTrainBranch, boolean isRelease, String releaseType) {
+    void buildAllRelatedJobs(String coreBranch, Map<String, String> binders, String releaseTrainBranch,
+                             boolean isRelease, String releaseType,
+                             String sampleRepoVersion) {
 
         //release is only supported on the master branch
 
@@ -85,8 +97,6 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         //binder builds
         def kafkaBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-kafka" }?.value
         if (kafkaBinderBranch) {
-
-
             if (isRelease) {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
                         .deploy(true, false, "",
@@ -126,6 +136,11 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         else {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
                     .deploy(false, true, "clean package -Pspring", null, null, null, true)
+        }
+
+        if (!isRelease) {
+            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
+                    .deploy(false, false, "clean package")
         }
     }
 }
