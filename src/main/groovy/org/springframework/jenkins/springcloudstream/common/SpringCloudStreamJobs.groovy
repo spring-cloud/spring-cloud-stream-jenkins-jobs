@@ -21,6 +21,13 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 					"""
     }
 
+    String cleanAndPackage() {
+        //just build
+        return """
+                ./mvnw clean package
+            """
+    }
+
     String cleanAndDeploy(boolean docsBuild, boolean isRelease, String releaseType) {
 
         if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
@@ -29,7 +36,10 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         if [ \$lines -eq 0 ]; then
                             set +x
                             ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
-                gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                gpgPubRing()
+            }" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${
+                sonatypePassword()
+            }" -Pcentral -U
                             set -x
                         else
                             echo "Non release versions found. Aborting build"
@@ -47,13 +57,11 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                             echo "snapshots found. Aborting build"
                         fi
                     """
-        }
-        else if (!docsBuild) {
+        } else if (!docsBuild) {
             return """
                 ./mvnw clean deploy -U
             """
-        }
-        else if(docsBuild) {
+        } else if (docsBuild) {
             //just build
             return """
                 ./mvnw clean package

@@ -86,14 +86,19 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                if (scriptDir != null && startScript != null) {
-                    shell(scriptToExecute(scriptDir, startScript))
+                if (project.equals("spring-cloud-stream-samples")) {
+                    shell(cleanAndPackage())
                 }
+                else {
+                    if (scriptDir != null && startScript != null) {
+                        shell(scriptToExecute(scriptDir, startScript))
+                    }
 
-                shell(cleanAndDeploy(docsBuild, isRelease, releaseType))
+                    shell(cleanAndDeploy(docsBuild, isRelease, releaseType))
 
-                if (scriptDir != null && stopScript != null) {
-                    shell(scriptToExecute(scriptDir, stopScript))
+                    if (scriptDir != null && stopScript != null) {
+                        shell(scriptToExecute(scriptDir, stopScript))
+                    }
                 }
             }
             configure {
