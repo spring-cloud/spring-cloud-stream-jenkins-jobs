@@ -6,8 +6,8 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-boolean masterRelease = false
-String releaseType = "" // possible values are - milestone or ga
+boolean masterRelease = true
+String releaseType = "milestone" // possible values are - milestone or ga
 
 // Master builds (Elmhurst)
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
