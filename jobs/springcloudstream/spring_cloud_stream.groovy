@@ -44,7 +44,7 @@ new SpringCloudStreamBuildMarker(dsl,
 new SpringCloudStreamBuildMarker(dsl,
         "spring-cloud",
         "spring-cloud-stream-binder-aws-kinesis", "master", [:])
-        .deploy(true, false, "", null, null, fasle, true, "milestone")
+        .deploy(true, false, "", null, null, null, false, true, "milestone")
 
 
 // 0.11 Kafka build
