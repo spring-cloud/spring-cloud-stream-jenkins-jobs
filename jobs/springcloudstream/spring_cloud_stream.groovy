@@ -41,10 +41,12 @@ new SpringCloudStreamBuildMarker(dsl,
         .deploy()
 
 // AWS Kinesis Binders builds
+// Use this as the milestone build parameters into deploy method
+// true, false, "", null, null, null, false, true, "milestone"
 new SpringCloudStreamBuildMarker(dsl,
         "spring-cloud",
         "spring-cloud-stream-binder-aws-kinesis", "master", [:])
-        .deploy(true, false, "", null, null, null, false, true, "milestone")
+        .deploy()
 
 
 // 0.11 Kafka build
