@@ -11,7 +11,8 @@ String releaseType = "" // possible values are - milestone or ga
 
 // Master builds (Elmhurst)
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                  'spring-cloud-stream-binder-rabbit':'master'], masterRelease, releaseType)
+                                                  'spring-cloud-stream-binder-rabbit':'master',
+                                                  'spring-cloud-stream-binder-aws-kinesis':'master'], masterRelease, releaseType)
 // Spring Cloud Stream Ditmars builds (1.3.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Ditmars.x", "spring-cloud-stream-Ditmars-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'1.3.x',
@@ -43,10 +44,10 @@ new SpringCloudStreamBuildMarker(dsl,
 // AWS Kinesis Binders builds
 // Use this as the milestone build parameters into deploy method
 // true, false, "", null, null, null, false, true, "milestone"
-new SpringCloudStreamBuildMarker(dsl,
-        "spring-cloud",
-        "spring-cloud-stream-binder-aws-kinesis", "master", [:])
-        .deploy()
+//new SpringCloudStreamBuildMarker(dsl,
+//        "spring-cloud",
+//        "spring-cloud-stream-binder-aws-kinesis", "master", [:])
+//        .deploy()
 
 
 // 0.11 Kafka build
