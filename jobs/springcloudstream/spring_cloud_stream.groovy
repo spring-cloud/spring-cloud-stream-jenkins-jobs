@@ -6,16 +6,16 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-boolean masterRelease = false
-String releaseType = "" // possible values are - milestone or ga
+boolean masterRelease = true
+String releaseType = "milestone" // possible values are - milestone or ga
 
 // Master builds (Elmhurst)
-//new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-//                                                  'spring-cloud-stream-binder-rabbit':'master'], masterRelease, releaseType)
-
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                  'spring-cloud-stream-binder-rabbit':'master',
-                                                  'spring-cloud-stream-binder-aws-kinesis':'master'], masterRelease, releaseType)
+                                                  'spring-cloud-stream-binder-rabbit':'master'], masterRelease, releaseType)
+
+//new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
+//                                                  'spring-cloud-stream-binder-rabbit':'master',
+//                                                  'spring-cloud-stream-binder-aws-kinesis':'master'], masterRelease, releaseType)
 
 // Spring Cloud Stream Ditmars builds (1.3.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Ditmars.x", "spring-cloud-stream-Ditmars-x-builds",
