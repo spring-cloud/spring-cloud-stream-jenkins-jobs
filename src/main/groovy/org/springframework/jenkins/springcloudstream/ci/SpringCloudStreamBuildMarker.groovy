@@ -88,6 +88,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             steps {
                 if (project.equals("spring-cloud-stream-samples")) {
                     shell(cleanAndPackage())
+                    shell(scriptToExecute("samples-acceptance-tests", "runAcceptanceTests.sh"))
                 }
                 else {
                     if (scriptDir != null && startScript != null) {
