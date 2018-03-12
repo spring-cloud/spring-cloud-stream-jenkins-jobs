@@ -8,10 +8,10 @@ import org.springframework.jenkins.springcloudstream.common.SpringCloudStreamJob
  */
 class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
-    public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
-                                            'spring-cloud-stream-binder-aws-kinesis']
+//    public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
+//                                            'spring-cloud-stream-binder-aws-kinesis']
 
-    //public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit']
+    public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit']
 
     private final DslFactory dsl
 
