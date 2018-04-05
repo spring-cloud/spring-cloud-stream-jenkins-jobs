@@ -8,8 +8,8 @@ import org.springframework.jenkins.springcloudstream.common.SpringCloudStreamJob
  */
 class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
-    public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
-                                            'spring-cloud-stream-binder-aws-kinesis']
+    //public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
+      //                                      'spring-cloud-stream-binder-aws-kinesis']
 
    // public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit']
 
@@ -49,7 +49,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                     }
                 }
                 phase("spring-cloud-stream-binders-phase", 'COMPLETED') {
-                    BINDER_PHASE_JOBS.each { String project ->
+                    binders.keySet().each { String project ->
                         def branch = binders.find { it.key == project }?.value
                         if (branch) {
                             String prefixedProjectName = prefixJob(project)
