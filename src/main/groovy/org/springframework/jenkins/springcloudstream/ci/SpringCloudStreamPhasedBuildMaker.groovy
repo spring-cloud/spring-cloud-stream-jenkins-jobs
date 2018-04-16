@@ -123,6 +123,20 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
             }
             binders.remove('spring-cloud-stream-binder-rabbit')
         }
+        def kinesisBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-aws-kinesis" }?.value
+        if (kinesisBinderBranch) {
+            if (isRelease) {
+                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", kinesisBinderBranch)
+                        .deploy(true, false, "",
+                        null, null, null, false, true, releaseType)
+            }
+            else {
+                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", kinesisBinderBranch)
+                        .deploy()
+            }
+
+            binders.remove('spring-cloud-stream-binder-aws-kinesis')
+        }
         binders.each { k, v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy() }
         //starter builds
         if (isRelease) {
