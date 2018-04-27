@@ -11,6 +11,8 @@ DslFactory dsl = this
 
 doMasterSnapshotBuild(dsl)
 
+doElmhurstSnapshotBuild(dsl)
+
 doDitmarsSnapshotBuild(dsl)
 
 doChelseaSnapshotBuild(dsl)
@@ -67,6 +69,13 @@ void doMasterSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                       'spring-cloud-stream-binder-rabbit':'master',
                                                       'spring-cloud-stream-binder-aws-kinesis':'master'], false, "")
+}
+
+void doElmhurstSnapshotBuild(DslFactory dsl) {
+    // Spring Cloud Stream Ditmars builds (1.3.x)
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
+            ['spring-cloud-stream-binder-kafka' : '2.0.x',
+             'spring-cloud-stream-binder-rabbit': '2.0.x'], false, "", "Elmhurst")
 }
 
 void doDitmarsSnapshotBuild(DslFactory dsl){
