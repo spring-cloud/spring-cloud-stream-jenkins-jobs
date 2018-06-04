@@ -111,14 +111,14 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         if (rabbitBinderBranch) {
             if (isRelease) {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
-                        .deploy(true, false,
-                        "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+                        .deploy(true, false, "",
+                        "ci-docker-compose", "docker-compose-RABBITMQ.sh",
                         "docker-compose-RABBITMQ-stop.sh", false, true, releaseType)
             }
             else {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
-                        .deploy(true, false,
-                        "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+                        .deploy(true, false, "",
+                        "ci-docker-compose", "docker-compose-RABBITMQ.sh",
                         "docker-compose-RABBITMQ-stop.sh")
             }
             binders.remove('spring-cloud-stream-binder-rabbit')
@@ -141,17 +141,21 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         //starter builds
         if (isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-                    .deploy(false, true, "clean package -Pspring", null, null, null, true,
+                    .deploy(false, true, "", null, null, null, true,
             true, releaseType)
         }
         else {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-                    .deploy(false, true, "clean package -Pspring", null, null, null, true)
+                    .deploy(false, true, "", null, null, null, true)
         }
 
         if (!isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
-                    .deploy(false, false, "clean package")
+                    .deploy(false, false, "spring-cloud-stream-samples-ci")
+            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
+                    .deploy(false, false, "spring-cloud-stream-local-acceptance-tests")
+            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
+                    .deploy(false, false, "spring-cloud-stream-cf-acceptance-tests")
         }
     }
 }

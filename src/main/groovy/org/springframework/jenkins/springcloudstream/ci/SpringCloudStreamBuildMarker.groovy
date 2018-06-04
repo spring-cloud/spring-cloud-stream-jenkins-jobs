@@ -9,7 +9,6 @@ import org.springframework.jenkins.springcloudstream.common.SpringCloudStreamJob
 
 import static org.springframework.jenkins.common.job.Artifactory.artifactoryMaven3Configurator
 import static org.springframework.jenkins.common.job.Artifactory.artifactoryMavenBuild
-
 /**
  * @author Soby Chacko
  */
@@ -42,10 +41,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.ghPushTrigger = ghPushTrigger
     }
 
-    void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U -Pfull,spring",
+    void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String ciPlanName = "",
                 String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false, boolean isRelease = false,
                 String releaseType = "") {
-        dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
+        ciPlanName = ciPlanName != "" ? ciPlanName : "${prefixJob(project)}-${branchToBuild}-ci"
+        dsl.job(ciPlanName) {
             if (ghPushTrigger && !isRelease) {
                 triggers {
                     githubPush()
@@ -68,6 +68,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
                     }
                 }
+                if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
+                    credentialsBinding {
+                        usernamePassword('CF_E2E_TEST_SPRING_CLOUD_STREAM_USER', 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD', "needles-admin")
+                    }
+                }
             }
             scm {
                 git {
@@ -86,9 +91,16 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                if (project.equals("spring-cloud-stream-samples")) {
+                if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-local-acceptance-tests")) {
                     shell(cleanAndPackage())
                     shell(scriptToExecute("samples-acceptance-tests", "runAcceptanceTests.sh"))
+                }
+                else if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
+                    shell(cleanAndPackage())
+                    shell(scriptToExecute("cf-acceptance-tests", "runAcceptanceTests.sh"))
+                }
+                else if (project.equals("spring-cloud-stream-samples")) {
+                    shell(cleanAndPackage())
                 }
                 else {
                     if (scriptDir != null && startScript != null) {
