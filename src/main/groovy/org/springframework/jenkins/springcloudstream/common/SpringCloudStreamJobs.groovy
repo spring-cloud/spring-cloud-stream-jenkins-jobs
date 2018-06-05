@@ -26,7 +26,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         echo "cd to ${scriptDir}"
                         cd ${scriptDir}
 						echo "Running script"
-						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestSkipSsl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}"
+						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
 					"""
     }
 
