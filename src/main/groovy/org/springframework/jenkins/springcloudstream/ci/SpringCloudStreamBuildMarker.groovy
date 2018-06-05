@@ -44,8 +44,8 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String ciPlanName = "",
                 String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false, boolean isRelease = false,
                 String releaseType = "") {
-        ciPlanName = ciPlanName != "" ? ciPlanName-"${branchToBuild}-ci" : "${prefixJob(project)}-${branchToBuild}-ci"
-        dsl.job(ciPlanName) {
+        String ciPlanNameWithBranch = ciPlanName != "" ? ciPlanName-"${branchToBuild}-ci" : "${prefixJob(project)}-${branchToBuild}-ci"
+        dsl.job(ciPlanNameWithBranch) {
             if (ghPushTrigger && !isRelease) {
                 triggers {
                     githubPush()
