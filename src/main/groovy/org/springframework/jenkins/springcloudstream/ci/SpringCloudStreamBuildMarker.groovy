@@ -46,6 +46,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 String releaseType = "") {
         String ciPlanNameWithBranch = ciPlanName != "" ? ciPlanName + "-${branchToBuild}-ci" : "${prefixJob(project)}-${branchToBuild}-ci"
         dsl.job(ciPlanNameWithBranch) {
+
+            System.out.println("FOOBAR..." + envVariables.get("foobar"))
+
             if (ghPushTrigger && !isRelease) {
                 triggers {
                     githubPush()
@@ -95,7 +98,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     shell(scriptToExecute("samples-acceptance-tests", "runAcceptanceTests.sh"))
                 }
                 else if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
-                    shell(scriptToExecute("cf-acceptance-tests", "runAcceptanceTests.sh"))
+                    shell(scriptToExecuteForCFAcceptanceTest("cf-acceptance-tests", "runAcceptanceTests.sh"))
                 }
                 else if (project.equals("spring-cloud-stream-samples")) {
                     shell(cleanAndPackage())

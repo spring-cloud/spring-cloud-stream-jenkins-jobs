@@ -21,6 +21,15 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 					"""
     }
 
+    String scriptToExecuteForCFAcceptanceTest(String scriptDir, String script) {
+        return """
+                        echo "cd to ${scriptDir}"
+                        cd ${scriptDir}
+						echo "Running script"
+						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestSkipSsl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}"
+					"""
+    }
+
     String cleanAndPackage() {
         //just build
         return """
@@ -87,6 +96,30 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String sonatypePassword() {
         return 'SONATYPE_PASSWORD'
+    }
+
+    String cfAcceptanceTestUrl() {
+        return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_URL'
+    }
+
+    String cfAcceptanceTestSkipSsl() {
+        return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_SKIP_SSL'
+    }
+
+    String cfAcceptanceTestOrg() {
+        return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_ORG'
+    }
+
+    String cfAcceptanceTestSpace() {
+        return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_SPACE'
+    }
+
+    String cfAcceptanceTestUser() {
+        return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_USER'
+    }
+
+    String cfAcceptanceTestPassword() {
+        return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD'
     }
 
 }
