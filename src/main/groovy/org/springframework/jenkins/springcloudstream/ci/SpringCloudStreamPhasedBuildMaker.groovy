@@ -160,7 +160,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
         if (!isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
-                    .deploy(false, false, "spring-cloud-stream-samples-ci")
+                    .deploy(false, false, "")
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
                     .deploy(false, false, "spring-cloud-stream-local-acceptance-tests")
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
