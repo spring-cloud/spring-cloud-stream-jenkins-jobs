@@ -161,10 +161,13 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         if (!isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
                     .deploy(false, false, "")
-            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
-                    .deploy(false, false, "spring-cloud-stream-local-acceptance-tests")
-            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
-                    .deploy(false, false, "spring-cloud-stream-cf-acceptance-tests")
+            //Acceptance tests are only enabled for Master or release trains starting from Elmhurst.
+            if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) > 'D') {
+                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
+                        .deploy(false, false, "spring-cloud-stream-local-acceptance-tests")
+                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
+                        .deploy(false, false, "spring-cloud-stream-cf-acceptance-tests")
+            }
         }
     }
 }
