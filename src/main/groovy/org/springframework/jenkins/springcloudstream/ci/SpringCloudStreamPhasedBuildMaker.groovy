@@ -67,6 +67,15 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                             currentJobParameters()
                         }
                     }
+                    phase('spring-cloud-stream-acceptance-tests') {
+                        String prefixedProjectName = prefixJob("spring-cloud-stream")
+                        phaseJob("${prefixedProjectName}-local-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                        phaseJob("${prefixedProjectName}-cf-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                    }
                 }
             }
         }
