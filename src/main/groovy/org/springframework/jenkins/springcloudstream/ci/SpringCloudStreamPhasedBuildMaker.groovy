@@ -61,7 +61,8 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                     }
                 }
                 if (!isRelease) {
-                    if (sampleRepoVersion != "") {
+                    //samples are enabled for Ditmars and above
+                    if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) > 'D') {
                         phase('spring-cloud-stream-samples-phase') {
                             String prefixedProjectName = prefixJob("spring-cloud-stream-samples")
                             phaseJob("${prefixedProjectName}-${sampleRepoVersion}-ci".toString()) {
