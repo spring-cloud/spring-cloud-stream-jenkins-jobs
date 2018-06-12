@@ -8,12 +8,13 @@ DslFactory dsl = this
 
 //doMasterGAReleaseBuild(dsl)
 //doMasterMilestoneReleaseBuild(dsl)
+doDitmarsGAReleaseBuild(dsl)
 
 doMasterSnapshotBuild(dsl)
 
 doElmhurstSnapshotBuild(dsl)
 
-doDitmarsSnapshotBuild(dsl)
+//doDitmarsSnapshotBuild(dsl)
 
 doChelseaSnapshotBuild(dsl)
 
@@ -72,7 +73,7 @@ void doMasterSnapshotBuild(DslFactory dsl){
 }
 
 void doElmhurstSnapshotBuild(DslFactory dsl) {
-    // Spring Cloud Stream Ditmars builds (1.3.x)
+    // Spring Cloud Stream Ditmars builds (2.0.x)
     new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
             ['spring-cloud-stream-binder-kafka' : '2.0.x',
              'spring-cloud-stream-binder-rabbit': '2.0.x'], false, "", "Elmhurst")
@@ -83,6 +84,13 @@ void doDitmarsSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Ditmars.x", "spring-cloud-stream-Ditmars-x-builds",
             ['spring-cloud-stream-binder-kafka':'1.3.x',
              'spring-cloud-stream-binder-rabbit':'1.3.x'], false, "", "Ditmars")
+}
+
+void doDitmarsGAReleaseBuild(DslFactory dsl){
+    // Spring Cloud Stream Ditmars builds (1.3.x)
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Ditmars.x", "spring-cloud-stream-Ditmars-x-builds",
+            ['spring-cloud-stream-binder-kafka':'1.3.x',
+             'spring-cloud-stream-binder-rabbit':'1.3.x'], true, "ga", "Ditmars")
 }
 
 void doChelseaSnapshotBuild(DslFactory dsl) {
