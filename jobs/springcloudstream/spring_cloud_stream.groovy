@@ -82,7 +82,7 @@ void doElmhurstSnapshotBuild(DslFactory dsl) {
 
 void doElmhurstGAReleaseBuild(DslFactory dsl){
     // Spring Cloud Stream Elmhurst builds (2.0.x)
-    new SpringCloudStreamPhasedBuildMaker(dsl).build("1.3.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
             ['spring-cloud-stream-binder-kafka':'2.0.x',
              'spring-cloud-stream-binder-rabbit':'2.0.x'], true, "ga", "Elmhurst")
 }
