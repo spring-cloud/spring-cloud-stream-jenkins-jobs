@@ -11,6 +11,8 @@ DslFactory dsl = this
 //doDitmarsGAReleaseBuild(dsl)
 //doElmhurstGAReleaseBuild(dsl)
 
+//doKinesisMilestoneReleaseBuild(dsl)
+
 doMasterSnapshotBuild(dsl)
 
 doElmhurstSnapshotBuild(dsl)
@@ -65,6 +67,12 @@ void doMasterMilestoneReleaseBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                       'spring-cloud-stream-binder-rabbit':'master'], true, "milestone")
 
+}
+
+void doKinesisMilestoneReleaseBuild(DslFactory dsl){
+    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "master", false)
+            .deploy(true, false, "",
+            null, null, null, false, true, "milestone")
 }
 
 void doMasterSnapshotBuild(DslFactory dsl){
