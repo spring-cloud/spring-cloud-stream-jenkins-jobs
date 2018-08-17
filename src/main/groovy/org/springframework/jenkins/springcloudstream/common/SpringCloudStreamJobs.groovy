@@ -37,36 +37,6 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
             """
     }
 
-    String cleanAndDeployForSamples() {
-        //just build
-        return """
-                ./mvnw clean deploy
-                ./mvnw clean deploy -DskipTests -P rabbit-binder
-                cd processor-samples/uppercase-transformer
-                set +x
-                ./mvnw -U clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-                ./mvnw -U clean package -P rabbit-binder docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-                set -x
-                
-                cd ../../partitioning-samples
-                cd partitioning-producer-sample
-                set +x
-                ./mvnw -U clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-                ./mvnw -U clean package -P rabbit-binder docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-                set -x
-                
-                cd ../partitioning-consumer-sample-kafka
-                set +x
-                ./mvnw -U clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-                set -x
-                
-                cd ../partitioning-consumer-sample-rabbit
-                set +x
-                ./mvnw -U clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-                set -x
-            """
-    }
-
     String cleanAndDeploy(boolean docsBuild, boolean isRelease, String releaseType) {
 
         if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
@@ -150,14 +120,6 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String cfAcceptanceTestPassword() {
         return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD'
-    }
-
-    String dockerHubUserNameEnvVar() {
-        return 'DOCKER_HUB_USERNAME'
-    }
-
-    String dockerHubPasswordEnvVar() {
-        return 'DOCKER_HUB_PASSWORD'
     }
 
 }
