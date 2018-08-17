@@ -57,6 +57,10 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             jdk jdk8()
             wrappers {
                 colorizeOutput()
+                maskPasswords()
+                credentialsBinding {
+                    usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                }
                 environmentVariables(envVariables)
                 timeout {
                     noActivity(300)
@@ -94,11 +98,15 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-local-acceptance-tests")) {
-                    shell(scriptToExecute("samples-acceptance-tests", "runAcceptanceTests.sh"))
-                }
-                else if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
-                    shell(scriptToExecuteForCFAcceptanceTest("cf-acceptance-tests", "runAcceptanceTests.sh"))
+//                if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-local-acceptance-tests")) {
+//                    shell(scriptToExecute("samples-acceptance-tests", "runAcceptanceTests.sh"))
+//                }
+//                else if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
+//                    shell(scriptToExecuteForCFAcceptanceTest("cf-acceptance-tests", "runAcceptanceTests.sh"))
+//                }
+//                else
+                if (project.equals("spring-cloud-stream-samples") && branchToBuild.equals("master")) {
+                    shell(cleanAndDeployForSamples())
                 }
                 else if (project.equals("spring-cloud-stream-samples")) {
                     shell(cleanAndPackage())
