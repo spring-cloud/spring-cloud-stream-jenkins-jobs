@@ -70,17 +70,17 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                             }
                         }
                         //Acceptance tests are only enabled for Master or release trains starting from Fishtown.
-                        if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) >= 'F') {
-                            phase('spring-cloud-stream-acceptance-tests') {
-                                String prefixedProjectName = prefixJob("spring-cloud-stream")
-                                phaseJob("${prefixedProjectName}-local-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
-                                    currentJobParameters()
-                                }
-                                phaseJob("${prefixedProjectName}-cf-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
-                                    currentJobParameters()
-                                }
-                            }
-                        }
+//                        if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) >= 'F') {
+//                            phase('spring-cloud-stream-acceptance-tests') {
+//                                String prefixedProjectName = prefixJob("spring-cloud-stream")
+//                                phaseJob("${prefixedProjectName}-local-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
+//                                    currentJobParameters()
+//                                }
+//                                phaseJob("${prefixedProjectName}-cf-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
+//                                    currentJobParameters()
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
