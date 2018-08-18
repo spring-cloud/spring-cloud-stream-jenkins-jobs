@@ -28,7 +28,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         ${customStreamAppBuildForTests()}
                         
                         echo "cd to ../uppercase-transformer-rabbit"
-                        cd ../uppercase-transformer-kafka
+                        cd ../uppercase-transformer-rabbit
                         ${customStreamAppBuildForTests()}
 
                         echo "cd to ../partitioning-producer-sample-kafka"

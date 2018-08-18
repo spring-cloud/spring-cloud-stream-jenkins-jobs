@@ -47,8 +47,8 @@ new SpringCloudStreamBuildMarker(dsl,
 //        "spring-cloud-stream-binder-aws-kinesis", "master", [:])
 //        .deploy()
 
-
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests")
+//last 2 params of the constructor can be taken out once gh trigger is enabled
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
         .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
 
 
