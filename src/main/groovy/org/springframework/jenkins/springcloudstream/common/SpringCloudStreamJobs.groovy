@@ -22,7 +22,6 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
     }
 
     String startCFAcceptanceTests() {
-
         return """
                         echo "cd to custom-stream-apps/uppercase-transformer-kafka"
                         cd custom-stream-apps/uppercase-transformer-kafka
@@ -51,11 +50,8 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         echo "cd to spring-cloud-stream-cf-acceptance-tests"
                         cd ../../spring-cloud-stream-cf-acceptance-tests
 						echo "Running script"
-						bash "runAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${
-            cfAcceptanceTestPassword()
-        }" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
+						bash "runAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
 					"""
-
     }
 
     String scriptToExecuteForCFAcceptanceTest(String scriptDir, String script) {
@@ -171,12 +167,8 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String customStreamAppBuildForTests() {
         return """
-            . /mvnw -U clean deploy -DskipTests
-            ./ mvnw docker:build docker: push - DskipTests - Ddocker.username = "\$${
-            dockerHubUserNameEnvVar()
-        }" - Ddocker.password = "\$${dockerHubPasswordEnvVar()}"
+            ./mvnw -U clean deploy -DskipTests
+            ./ mvnw docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
         """
-
-
     }
 }

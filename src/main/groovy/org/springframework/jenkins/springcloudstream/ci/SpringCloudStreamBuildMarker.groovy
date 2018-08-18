@@ -106,9 +106,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
 //                }
 //                else
 
-                if (project.equals("spring-cloud-stream-acceptance-tests") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests-master")) {
-                    shell(startCFAcceptanceTests())
-                }
+
 
                 if (project.equals("spring-cloud-stream-samples")) {
                     shell(cleanAndPackage())
@@ -116,6 +114,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     if (branchToBuild.equals("master") || branchToBuild.charAt(0) > 'E') {
                         shell(scriptToExecute("samples-e2e-tests", "runSamplesE2ETests.sh"))
                     }
+                }
+                else if (project.equals("spring-cloud-stream-acceptance-tests")) {
+                    shell(startCFAcceptanceTests())
                 }
                 else {
                     if (scriptDir != null && startScript != null) {
