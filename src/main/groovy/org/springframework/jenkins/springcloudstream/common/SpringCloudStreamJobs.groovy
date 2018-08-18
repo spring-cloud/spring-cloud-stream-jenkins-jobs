@@ -23,32 +23,12 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String startCFAcceptanceTests() {
         return """
-                        echo "cd to custom-stream-apps/uppercase-transformer-kafka"
-                        cd custom-stream-apps/uppercase-transformer-kafka
-                        ${customStreamAppBuildForTests()}
+                        echo "cd to custom-stream-apps"
+                        cd custom-stream-apps
+                        ${customStreamAppBuildForCFTests()}
                         
-                        echo "cd to ../uppercase-transformer-rabbit"
-                        cd ../uppercase-transformer-rabbit
-                        ${customStreamAppBuildForTests()}
-
-                        echo "cd to ../partitioning-producer-sample-kafka"
-                        cd ../partitioning-producer-sample-kafka
-                        ${customStreamAppBuildForTests()}
-
-                        echo "cd to ../partitioning-producer-sample-rabbit"
-                        cd ../partitioning-producer-sample-rabbit
-                       ${customStreamAppBuildForTests()}
-
-                        echo "cd to ../partitioning-consumer-sample-kafka"
-                        cd ../partitioning-consumer-sample-kafka
-                        "${customStreamAppBuildForTests()}"
-
-                        echo "cd to ../partitioning-consumer-sample-rabbit"
-                        cd ../partitioning-consumer-sample-rabbit
-                       ${customStreamAppBuildForTests()}
-
                         echo "cd to spring-cloud-stream-cf-acceptance-tests"
-                        cd ../../spring-cloud-stream-cf-acceptance-tests
+                        cd ../spring-cloud-stream-cf-acceptance-tests
 						echo "Running script"
 						bash "runAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
 					"""
@@ -165,10 +145,16 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
         return 'DOCKER_HUB_PASSWORD'
     }
 
-    String customStreamAppBuildForTests() {
+    String customStreamAppBuildForCFTests() {
         return """
             ./mvnw -U clean deploy -DskipTests
-            ./ mvnw docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+        """
+    }
+
+    String customStreamAppBuildForK8STests() {
+        return """
+            ./mvnw -U clean package -DskipTests
+            ./mvnw docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
         """
     }
 }
