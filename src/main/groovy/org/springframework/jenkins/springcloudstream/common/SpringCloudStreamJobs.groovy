@@ -21,12 +21,51 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 					"""
     }
 
+    String startCFAcceptanceTests() {
+
+        return """
+                        echo "cd to custom-stream-apps/uppercase-transformer-kafka"
+                        cd custom-stream-apps/uppercase-transformer-kafka
+                        "\$${customStreamAppBuildForTests()}"
+                        
+                        echo "cd to ../uppercase-transformer-rabbit"
+                        cd ../uppercase-transformer-kafka
+                        "\$${customStreamAppBuildForTests()}"
+
+                        echo "cd to ../partitioning-producer-sample-kafka"
+                        cd ../partitioning-producer-sample-kafka
+                        "\$${customStreamAppBuildForTests()}"
+
+                        echo "cd to ../partitioning-producer-sample-rabbit"
+                        cd ../partitioning-producer-sample-rabbit
+                       "\$${customStreamAppBuildForTests()}"
+
+                        echo "cd to ../partitioning-consumer-sample-kafka"
+                        cd ../partitioning-consumer-sample-kafka
+                        "\\\$${customStreamAppBuildForTests()}"
+
+                        echo "cd to ../partitioning-consumer-sample-rabbit"
+                        cd ../partitioning-consumer-sample-rabbit
+                       "\\\$${customStreamAppBuildForTests()}"
+
+                        echo "cd to spring-cloud-stream-cf-acceptance-tests"
+                        cd ../../spring-cloud-stream-cf-acceptance-tests
+						echo "Running script"
+						bash "runAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${
+            cfAcceptanceTestPassword()
+        }" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
+					"""
+
+    }
+
     String scriptToExecuteForCFAcceptanceTest(String scriptDir, String script) {
         return """
                         echo "cd to ${scriptDir}"
                         cd ${scriptDir}
 						echo "Running script"
-						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
+						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${
+            cfAcceptanceTestPassword()
+        }" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
 					"""
     }
 
@@ -122,4 +161,22 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
         return 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD'
     }
 
+    String dockerHubUserNameEnvVar() {
+        return 'DOCKER_HUB_USERNAME'
+    }
+
+    String dockerHubPasswordEnvVar() {
+        return 'DOCKER_HUB_PASSWORD'
+    }
+
+    String customStreamAppBuildForTests() {
+        return """
+            . /mvnw -U clean deploy -DskipTests
+            ./ mvnw docker:build docker: push - DskipTests - Ddocker.username = "\$${
+            dockerHubUserNameEnvVar()
+        }" - Ddocker.password = "\$${dockerHubPasswordEnvVar()}"
+        """
+
+
+    }
 }

@@ -58,6 +58,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             wrappers {
                 colorizeOutput()
                 maskPasswords()
+                credentialsBinding {
+                    usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                }
                 environmentVariables(envVariables)
                 timeout {
                     noActivity(300)
@@ -102,6 +105,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
 //                    shell(scriptToExecuteForCFAcceptanceTest("cf-acceptance-tests", "runAcceptanceTests.sh"))
 //                }
 //                else
+
+                if (project.equals("spring-cloud-stream-acceptance-tests") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests-master")) {
+                    shell(startCFAcceptanceTests())
+                }
+
                 if (project.equals("spring-cloud-stream-samples")) {
                     shell(cleanAndPackage())
                     //run e2e tests on master and release trains higher than Elmhurst

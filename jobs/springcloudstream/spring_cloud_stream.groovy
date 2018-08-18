@@ -48,6 +48,11 @@ new SpringCloudStreamBuildMarker(dsl,
 //        .deploy()
 
 
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests")
+        .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests-master")
+
+
+
 // 0.11 Kafka build
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka",
         "0.11", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy()
