@@ -49,7 +49,7 @@ new SpringCloudStreamBuildMarker(dsl,
 
 
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests")
-        .deploy(false, false,"")
+        .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
 
 
 

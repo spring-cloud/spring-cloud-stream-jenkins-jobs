@@ -25,27 +25,27 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
         return """
                         echo "cd to custom-stream-apps/uppercase-transformer-kafka"
                         cd custom-stream-apps/uppercase-transformer-kafka
-                        "\$${customStreamAppBuildForTests()}"
+                        "${customStreamAppBuildForTests()}"
                         
                         echo "cd to ../uppercase-transformer-rabbit"
                         cd ../uppercase-transformer-kafka
-                        "\$${customStreamAppBuildForTests()}"
+                        "${customStreamAppBuildForTests()}"
 
                         echo "cd to ../partitioning-producer-sample-kafka"
                         cd ../partitioning-producer-sample-kafka
-                        "\$${customStreamAppBuildForTests()}"
+                        "${customStreamAppBuildForTests()}"
 
                         echo "cd to ../partitioning-producer-sample-rabbit"
                         cd ../partitioning-producer-sample-rabbit
-                       "\$${customStreamAppBuildForTests()}"
+                       "${customStreamAppBuildForTests()}"
 
                         echo "cd to ../partitioning-consumer-sample-kafka"
                         cd ../partitioning-consumer-sample-kafka
-                        "\\\$${customStreamAppBuildForTests()}"
+                        "${customStreamAppBuildForTests()}"
 
                         echo "cd to ../partitioning-consumer-sample-rabbit"
                         cd ../partitioning-consumer-sample-rabbit
-                       "\\\$${customStreamAppBuildForTests()}"
+                       "${customStreamAppBuildForTests()}"
 
                         echo "cd to spring-cloud-stream-cf-acceptance-tests"
                         cd ../../spring-cloud-stream-cf-acceptance-tests
