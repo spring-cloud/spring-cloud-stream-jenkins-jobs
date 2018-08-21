@@ -27,23 +27,34 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         cd custom-stream-apps
                         ${customStreamAppBuildForCFTests()}
                         
-                        echo "cd to spring-cloud-stream-cf-acceptance-tests"
-                        cd ../spring-cloud-stream-cf-acceptance-tests
+                        cd ../
 						echo "Running script"
-						bash "runAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
+						bash "runCFAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
 					"""
     }
 
-    String scriptToExecuteForCFAcceptanceTest(String scriptDir, String script) {
+    String startK8SAcceptanceTests() {
         return """
-                        echo "cd to ${scriptDir}"
-                        cd ${scriptDir}
+                        echo "cd to custom-stream-apps"
+                        cd custom-stream-apps
+                        ${customStreamAppBuildForK8STests()}
+                        
+                        cd ../
 						echo "Running script"
-						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${
-            cfAcceptanceTestPassword()
-        }" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
+						bash "runK8SAcceptanceTests.sh" "\$${k8sAcceptanceTestProject()}" "\$${k8sAcceptanceTestCluster()}" "\$${k8sAcceptanceTestZone()}" "\$${k8sAcceptanceTestClusterVersion()}"
 					"""
     }
+
+//    String scriptToExecuteForCFAcceptanceTest(String scriptDir, String script) {
+//        return """
+//                        echo "cd to ${scriptDir}"
+//                        cd ${scriptDir}
+//						echo "Running script"
+//						bash ${script} "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${
+//            cfAcceptanceTestPassword()
+//        }" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}"
+//					"""
+//    }
 
     String cleanAndPackage() {
         //just build
@@ -143,6 +154,22 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String dockerHubPasswordEnvVar() {
         return 'DOCKER_HUB_PASSWORD'
+    }
+
+    String k8sAcceptanceTestCluster() {
+        return 'SPRING_CLOUD_STREAM_K8S_TESTS_CLUSTER'
+    }
+
+    String k8sAcceptanceTestClusterVersion() {
+        return 'SPRING_CLOUD_STREAM_K8S_TESTS_CLUSTER_VERSION'
+    }
+
+    String k8sAcceptanceTestProject() {
+        return 'SPRING_CLOUD_STREAM_K8S_TESTS_PROJECT'
+    }
+
+    String k8sAcceptanceTestZone() {
+        return 'SPRING_CLOUD_STREAM_K8S_TESTS_ZONE'
     }
 
     String customStreamAppBuildForCFTests() {
