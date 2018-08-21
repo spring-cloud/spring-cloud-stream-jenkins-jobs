@@ -115,8 +115,10 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         shell(scriptToExecute("samples-e2e-tests", "runSamplesE2ETests.sh"))
                     }
                 }
-                else if (project.equals("spring-cloud-stream-acceptance-tests")) {
+                else if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
                     shell(startCFAcceptanceTests())
+                }
+                else if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
                     shell(startK8SAcceptanceTests())
                 }
                 else {
