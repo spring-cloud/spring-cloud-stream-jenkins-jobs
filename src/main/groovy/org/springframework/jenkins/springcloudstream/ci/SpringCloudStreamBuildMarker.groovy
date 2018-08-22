@@ -9,6 +9,7 @@ import org.springframework.jenkins.springcloudstream.common.SpringCloudStreamJob
 
 import static org.springframework.jenkins.common.job.Artifactory.artifactoryMaven3Configurator
 import static org.springframework.jenkins.common.job.Artifactory.artifactoryMavenBuild
+
 /**
  * @author Soby Chacko
  */
@@ -54,10 +55,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     githubPush()
                 }
             }
-            triggers {
-                if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests") ||
-                        ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
-                    scm('*/0 40 5,19 ? * * *')
+
+            if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests") ||
+                    ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
+                triggers {
+                    cron('*/0 45 5,19 ? * * *')
                 }
             }
             jdk jdk8()
@@ -114,14 +116,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     if (branchToBuild.equals("master") || branchToBuild.charAt(0) > 'E') {
                         shell(scriptToExecute("samples-e2e-tests", "runSamplesE2ETests.sh"))
                     }
-                }
-                else if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
+                } else if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
                     shell(prepareCFAcceptanceTests())
-                }
-                else if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
+                } else if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
                     shell(prepareK8SAcceptanceTests())
-                }
-                else {
+                } else {
                     if (scriptDir != null && startScript != null) {
                         shell(scriptToExecute(scriptDir, startScript))
                     }
@@ -142,8 +141,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
                             deployReleaseRepository("libs-milestone-local")
-                        }
-                        else if (isRelease) {
+                        } else if (isRelease) {
                             deployReleaseRepository("libs-release-local")
                         }
                     }
