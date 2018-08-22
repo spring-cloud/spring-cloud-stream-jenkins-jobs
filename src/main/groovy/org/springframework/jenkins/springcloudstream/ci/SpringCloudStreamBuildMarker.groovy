@@ -58,9 +58,6 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             wrappers {
                 colorizeOutput()
                 maskPasswords()
-                credentialsBinding {
-                    usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
-                }
                 environmentVariables(envVariables)
                 timeout {
                     noActivity(300)
@@ -81,7 +78,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     }
                 }
                 if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
+                    maskPasswords()
                     credentialsBinding {
+                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                         file('GOOGLE_APPLICATION_CREDENTIALS', "scdf-acceptance-tests")
                     }
                 }
