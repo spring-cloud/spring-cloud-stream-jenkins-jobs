@@ -75,7 +75,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
                     }
                 }
-                if (project.equals("spring-cloud-stream-samples") && ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
+                if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
                     credentialsBinding {
                         usernamePassword('CF_E2E_TEST_SPRING_CLOUD_STREAM_USER', 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD', "needles-admin")
                     }

@@ -29,7 +29,9 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         
                         cd ../cloudfoundry
 						echo "Running script"
-						bash "runCFAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}" 
+                        set +x
+						bash "runCFAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}"
+                        set -x 
 					"""
     }
 
@@ -41,7 +43,9 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         
                         cd ../kubernetes
 						echo "Running script"
+                        set +x
 						bash "runK8SAcceptanceTests.sh" "\$${k8sAcceptanceTestProject()}" "\$${k8sAcceptanceTestCluster()}" "\$${k8sAcceptanceTestZone()}" "\$${k8sAcceptanceTestClusterVersion()}"
+                        set -x
 					"""
     }
 
