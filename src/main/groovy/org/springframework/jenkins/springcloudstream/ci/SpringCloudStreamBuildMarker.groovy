@@ -57,7 +57,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests") ||
                     ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
                 triggers {
-                    cron "*/0 5 5, 20 ? * * *"
+                    cron everyThreeHours()
                 }
             }
             jdk jdk8()
