@@ -54,6 +54,12 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     githubPush()
                 }
             }
+            triggers {
+                if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests") ||
+                        ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
+                    scm('0 30 5,19 ? * * *')
+                }
+            }
             jdk jdk8()
             wrappers {
                 colorizeOutput()
