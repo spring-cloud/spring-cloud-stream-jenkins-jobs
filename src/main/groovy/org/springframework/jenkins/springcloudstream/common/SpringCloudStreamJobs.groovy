@@ -169,8 +169,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String customStreamAppBuildForK8STests() {
         return """
-            ./mvnw -U clean package -DskipTests
-            ./mvnw docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+            ./mvnw -U clean package -DskipTests docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
         """
     }
 }
