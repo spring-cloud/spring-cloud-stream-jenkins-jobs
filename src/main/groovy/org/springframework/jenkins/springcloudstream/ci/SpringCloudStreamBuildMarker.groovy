@@ -80,6 +80,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         usernamePassword('CF_E2E_TEST_SPRING_CLOUD_STREAM_USER', 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD', "needles-admin")
                     }
                 }
+                if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
+                    credentialsBinding {
+                        file('GOOGLE_APPLICATION_CREDENTIALS', "scdf-acceptance-tests")
+                    }
+                }
             }
             scm {
                 git {

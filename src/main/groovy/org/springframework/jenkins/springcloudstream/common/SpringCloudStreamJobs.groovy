@@ -44,6 +44,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         cd ../kubernetes
 						echo "Running script"
                         set +x
+                        gcloud auth activate-service-account --key-file "\$${googleApplicationCredentials()}"
 						bash "runK8SAcceptanceTests.sh" "\$${k8sAcceptanceTestProject()}" "\$${k8sAcceptanceTestCluster()}" "\$${k8sAcceptanceTestZone()}" "\$${k8sAcceptanceTestClusterVersion()}"
                         set -x
 					"""
@@ -163,6 +164,10 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String k8sAcceptanceTestZone() {
         return 'SPRING_CLOUD_STREAM_K8S_TESTS_ZONE'
+    }
+
+    String googleApplicationCredentials(){
+        return 'GOOGLE_APPLICATION_CREDENTIALS'
     }
 
     String customStreamAppBuildForCFTests() {
