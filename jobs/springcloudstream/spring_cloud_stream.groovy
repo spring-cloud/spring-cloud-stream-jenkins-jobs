@@ -7,7 +7,7 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 //doMasterGAReleaseBuild(dsl)
-//doMasterMilestoneReleaseBuild(dsl)
+doMasterMilestoneReleaseBuild(dsl)
 //doDitmarsGAReleaseBuild(dsl)
 //doElmhurstGAReleaseBuild(dsl)
 
@@ -15,7 +15,7 @@ DslFactory dsl = this
 
 //doKinesisGAReleaseBuild(dsl)
 
-doMasterSnapshotBuild(dsl)
+//doMasterSnapshotBuild(dsl)
 
 doElmhurstSnapshotBuild(dsl)
 
