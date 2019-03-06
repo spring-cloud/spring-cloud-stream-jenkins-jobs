@@ -13,7 +13,7 @@ DslFactory dsl = this
 
 //doKinesisMilestoneReleaseBuild(dsl)
 
-//doKinesisGAReleaseBuild(dsl)
+doKinesisGAReleaseBuild(dsl)
 
 doMasterSnapshotBuild(dsl)
 
@@ -91,10 +91,16 @@ void doKinesisGAReleaseBuild(DslFactory dsl){
             null, null, null, false, true, "ga")
 }
 
+//void doMasterSnapshotBuild(DslFactory dsl){
+//    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
+//                                                      'spring-cloud-stream-binder-rabbit':'master',
+//                                                      'spring-cloud-stream-binder-aws-kinesis':'master'], false, "")
+//}
+
+
 void doMasterSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                      'spring-cloud-stream-binder-rabbit':'master',
-                                                      'spring-cloud-stream-binder-aws-kinesis':'master'], false, "")
+                                                      'spring-cloud-stream-binder-rabbit':'master'], false, "")
 }
 
 void doFishtownSnapshotBuild(DslFactory dsl) {
