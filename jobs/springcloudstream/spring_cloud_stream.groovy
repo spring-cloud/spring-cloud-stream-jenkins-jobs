@@ -9,7 +9,7 @@ DslFactory dsl = this
 //doMasterGAReleaseBuild(dsl)
 //doMasterMilestoneReleaseBuild(dsl)
 //doDitmarsGAReleaseBuild(dsl)
-doElmhurstGAReleaseBuild(dsl)
+//doElmhurstGAReleaseBuild(dsl)
 
 //doKinesisMilestoneReleaseBuild(dsl)
 
@@ -19,7 +19,7 @@ doMasterSnapshotBuild(dsl)
 
 doFishtownSnapshotBuild(dsl)
 
-//doElmhurstSnapshotBuild(dsl)
+doElmhurstSnapshotBuild(dsl)
 
 doDitmarsSnapshotBuild(dsl)
 
