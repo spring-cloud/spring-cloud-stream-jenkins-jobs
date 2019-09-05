@@ -41,7 +41,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 						echo "Running script"
                         set +x
                         gcloud auth activate-service-account --key-file "\$${googleApplicationCredentials()}"
-						bash "runK8SAcceptanceTests.sh" "\$${k8sAcceptanceTestProject()}" "\$${k8sAcceptanceTestCluster()}" "\$${k8sAcceptanceTestZone()}" "\$${k8sAcceptanceTestClusterVersion()}" "\$${k8sAcceptanceTestNamespace()}" "\$${k8sAcceptanceTestNamespace()}"
+						bash "runK8SAcceptanceTests.sh" "\$${k8sAcceptanceTestProject()}" "\$${k8sAcceptanceTestCluster()}" "\$${k8sAcceptanceTestZone()}" "\$${k8sAcceptanceTestNamespace()}" "\$${k8sAcceptanceTestBaseDomain()}"
                         set -x
 					"""
     }
