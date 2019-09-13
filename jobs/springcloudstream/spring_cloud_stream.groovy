@@ -57,6 +57,10 @@ new SpringCloudStreamBuildMarker(dsl,
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-registry", "master", true)
         .deploy(true, false,"spring-cloud-schema-registry")
 
+//Kinesis binder 1.2.x build
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud",  "spring-cloud-stream-binder-aws-kinesis", "1.2.x", true)
+        .deploy(true, false,"")
+
 //No GH Trigger for acceptance tests
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
         .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
