@@ -112,7 +112,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     shell(cleanAndPackage())
                     //run e2e tests on master and release trains higher than Elmhurst
                     if (branchToBuild.equals("master") || branchToBuild.charAt(0) > 'E') {
-                        shell(scriptToExecute("samples-e2e-tests", "runSamplesE2ETests.sh"))
+                        //shell(scriptToExecute("samples-e2e-tests", "runSamplesE2ETests.sh"))
                     }
                 } else if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
                     shell(prepareCFAcceptanceTests())
