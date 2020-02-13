@@ -65,8 +65,8 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud",  "spring-cloud-stream-bind
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
         .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
 
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
-        .deploy(false, false,"spring-cloud-stream-k8s-acceptance-tests")
+//new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
+//        .deploy(false, false,"spring-cloud-stream-k8s-acceptance-tests")
 
 // 0.11 Kafka build
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka",
