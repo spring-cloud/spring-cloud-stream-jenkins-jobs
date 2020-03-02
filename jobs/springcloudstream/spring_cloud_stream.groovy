@@ -17,6 +17,8 @@ DslFactory dsl = this
 
 doMasterSnapshotBuild(dsl)
 
+doHorshamSnapshotBuild(dsl)
+
 doGermantownSnapshotBuild(dsl)
 
 doFishtownSnapshotBuild(dsl)
@@ -53,9 +55,13 @@ new SpringCloudStreamBuildMarker(dsl,
 //        "spring-cloud-stream-binder-aws-kinesis", "master", [:])
 //        .deploy()
 
-//Schema registry CI
+//Schema registry CI master
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-registry", "master", true)
         .deploy(true, false,"spring-cloud-schema-registry")
+
+//Schema registry CI 1.0.x
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-registry", "1.0.x", true)
+        .deploy(true, false,"spring-cloud-schema-registry-1.0.x")
 
 //Kinesis binder 1.2.x build
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud",  "spring-cloud-stream-binder-aws-kinesis", "1.2.x", true)
@@ -105,6 +111,13 @@ void doMasterSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                       'spring-cloud-stream-binder-rabbit':'master',
                                                       'spring-cloud-stream-binder-aws-kinesis':'master'], false, "")
+}
+
+void doHorshamSnapshotBuild(DslFactory dsl) {
+    // Spring Cloud Stream Ditmars builds (2.0.x)
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("3.0.x", "Horsham.x", "spring-cloud-stream-Horsham-x-builds",
+            ['spring-cloud-stream-binder-kafka' : '3.0.x',
+             'spring-cloud-stream-binder-rabbit': '3.0.x'], false, "", "master")
 }
 
 void doGermantownSnapshotBuild(DslFactory dsl) {
