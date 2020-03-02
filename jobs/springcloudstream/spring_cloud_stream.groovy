@@ -61,7 +61,7 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-regis
 
 //Schema registry CI 1.0.x
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-registry", "1.0.x", true)
-        .deploy(true, false,"spring-cloud-schema-registry-1.0.x")
+        .deploy(true, false,"spring-cloud-schema-registry")
 
 //Kinesis binder 1.2.x build
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud",  "spring-cloud-stream-binder-aws-kinesis", "1.2.x", true)
