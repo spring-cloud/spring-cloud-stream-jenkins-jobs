@@ -98,13 +98,13 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         branch branchToBuild
 
                     }
-                    extensions {
-                        submoduleOptions {
-                            if (recurseSubmodules) {
-                                recursive()
-                            }
-                        }
-                    }
+//                    extensions {
+//                        submoduleOptions {
+//                            if (recurseSubmodules) {
+//                                recursive()
+//                            }
+//                        }
+//                    }
                 }
             }
             steps {
