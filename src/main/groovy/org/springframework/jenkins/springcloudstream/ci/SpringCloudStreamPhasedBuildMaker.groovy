@@ -156,12 +156,12 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         //starter builds
         if (isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-                    .deploy(false, true, "", null, null, null, true,
+                    .deploy(false, false, "", null, null, null, true,
             true, releaseType)
         }
         else {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-                    .deploy(false, true, "", null, null, null, true)
+                    .deploy(false, false, "", null, null, null, true)
         }
 
         if (!isRelease) {
