@@ -115,7 +115,7 @@ void doMasterSnapshotBuild(DslFactory dsl){
 
 void doHorshamSnapshotBuild(DslFactory dsl) {
     // Spring Cloud Stream Ditmars builds (2.0.x)
-    new SpringCloudStreamPhasedBuildMaker(dsl).build("3.0.x", "Horsham.x", "spring-cloud-stream-Horsham-x-builds",
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("3.0.x", "Horsham", "spring-cloud-stream-Horsham-builds",
             ['spring-cloud-stream-binder-kafka' : '3.0.x',
              'spring-cloud-stream-binder-rabbit': '3.0.x'], false, "", "master")
 }
