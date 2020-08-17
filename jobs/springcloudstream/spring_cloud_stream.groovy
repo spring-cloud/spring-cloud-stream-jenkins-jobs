@@ -13,7 +13,7 @@ DslFactory dsl = this
 
 //doKinesisMilestoneReleaseBuild(dsl)
 
-//doKinesisGAReleaseBuild(dsl)
+doKinesisGAReleaseBuild(dsl)
 
 doMasterSnapshotBuild(dsl)
 
