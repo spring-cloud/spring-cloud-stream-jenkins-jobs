@@ -15,7 +15,7 @@ DslFactory dsl = this
 
 doKinesisGAReleaseBuild(dsl)
 
-doMasterSnapshotBuild(dsl)
+//doMasterSnapshotBuild(dsl)
 
 doHorshamSnapshotBuild(dsl)
 
