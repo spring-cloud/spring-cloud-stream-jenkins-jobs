@@ -149,7 +149,12 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (checkTests) {
                     archiveJunit mavenJUnitResults()
                 }
-                mailer('scdf-ci@pivotal.io', true, true)
+                if (ciPlanName.equals("spring-cloud-stream-binder-aws-kinesis")) {
+                    mailer('abilan@vmware.com ozhurakousky@vmware.com chackos@vmware.com ', true, true)
+                }
+                else {
+                    mailer('ozhurakousky@vmware.com chackos@vmware.com ', true, true)
+                }
             }
         }
     }
