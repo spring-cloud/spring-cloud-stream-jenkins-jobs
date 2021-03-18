@@ -43,7 +43,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     }
 
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String ciPlanName = "",
-                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false, boolean isRelease = false,
+                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = true, boolean isRelease = false,
                 String releaseType = "") {
         String ciPlanNameWithBranch = ciPlanName != "" ? ciPlanName + "-${branchToBuild}-ci" : "${prefixJob(project)}-${branchToBuild}-ci"
         dsl.job(ciPlanNameWithBranch) {
@@ -134,7 +134,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
-                        goals('clean install -U -Pfull -Pspring')
+                        goals('clean install -U -Pdocs -Pspring')
                     }
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
