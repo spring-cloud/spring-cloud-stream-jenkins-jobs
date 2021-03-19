@@ -134,7 +134,15 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
-                        goals('clean install -U -Pdocs -Pspring')
+                        if (project.equals("spring-cloud-stream-binder-kafka")) {
+                          goals('clean install -U -Pdocs -Pspring -pl :spring-cloud-stream-binder-kafka-docs')
+                        }
+                        else if (project.equals("spring-cloud-stream-binder-rabbit")) {
+                          goals('clean install -U -Pdocs -Pspring -pl :spring-cloud-stream-binder-rabbit-docs')
+                        }
+                        else if (project.equals("spring-cloud-stream")) {
+                          goals('clean install -U -Pdocs -Pspring -pl :spring-cloud-stream-docs')
+                        }
                     }
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
