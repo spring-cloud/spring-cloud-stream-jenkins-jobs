@@ -144,7 +144,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         //else if (project.equals("spring-cloud-stream")) {
                           //goals('clean install -U -Pdocs -Pspring -pl :spring-cloud-stream-docs')
                         //}
-                    }
+                    //}
                     artifactoryMaven3Configurator(it as Node) {
                         if (isRelease && releaseType != null && releaseType.equals("milestone")) {
                             deployReleaseRepository("libs-milestone-local")
