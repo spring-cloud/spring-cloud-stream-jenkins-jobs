@@ -152,7 +152,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
 //                            deployReleaseRepository("libs-release-local")
 //                        }
 //                    }
-                }
+//                }
             }
             publishers {
                 if (checkTests) {
