@@ -131,7 +131,8 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
             }
             configure {
-                if (docsBuild) {
+                if (docsBuild && (project.equals("spring-cloud-stream-binder-kafka") || project.equals("spring-cloud-stream-binder-rabbit")
+                                 || project.equals("spring-cloud-stream")) ) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven35())
                         if (project.equals("spring-cloud-stream-binder-kafka")) {
