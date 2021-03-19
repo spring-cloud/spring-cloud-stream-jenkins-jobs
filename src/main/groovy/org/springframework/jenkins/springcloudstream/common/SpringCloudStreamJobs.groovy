@@ -82,14 +82,9 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                             echo "snapshots found. Aborting build"
                         fi
                     """
-        } else if (!docsBuild) {
+        } else {
             return """
-                ./mvnw clean deploy -U
-            """
-        } else if (docsBuild) {
-            //just build
-            return """
-                ./mvnw clean package
+                ./mvnw clean deploy -Pdocs,spring -U
             """
         }
     }
