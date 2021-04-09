@@ -68,7 +68,7 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud",  "spring-cloud-stream-bind
         .deploy(true, false,"")
 
 //No GH Trigger for acceptance tests
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "stream-applications-acceptance-tests", "master", false)
         .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
 
 //new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
