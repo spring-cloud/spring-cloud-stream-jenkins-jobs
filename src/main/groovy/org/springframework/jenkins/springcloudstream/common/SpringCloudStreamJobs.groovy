@@ -171,7 +171,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String customStreamAppBuildForCFTests() {
         return """
-            ./mvnw -U clean deploy -DskipTests
+            #./mvnw -U clean deploy -DskipTests
         """
     }
 
