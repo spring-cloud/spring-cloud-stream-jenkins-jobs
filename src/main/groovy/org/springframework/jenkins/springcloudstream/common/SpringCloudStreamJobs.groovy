@@ -23,15 +23,15 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
     String prepareCFAcceptanceTests() {
         return """
-                        echo "cd to custom-stream-apps"
-                        cd custom-stream-apps
-                        ${customStreamAppBuildForCFTests()}
-                        
-                        cd ../cloudfoundry
+                        #echo "cd to custom-stream-apps"
+                        #cd custom-stream-apps
+                        #${customStreamAppBuildForCFTests()}
+
+                        cd cloudfoundry
 						echo "Running script"
                         set +x
 						bash "runCFAcceptanceTests.sh" "\$${cfAcceptanceTestUrl()}" "\$${cfAcceptanceTestUser()}" "\$${cfAcceptanceTestPassword()}" "\$${cfAcceptanceTestOrg()}" "\$${cfAcceptanceTestSpace()}" "\$${cfAcceptanceTestSkipSsl()}"
-                        set -x 
+                        set -x
 					"""
     }
 

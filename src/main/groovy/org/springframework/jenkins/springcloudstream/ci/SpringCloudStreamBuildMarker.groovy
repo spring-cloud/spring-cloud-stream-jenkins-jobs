@@ -116,7 +116,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     }
                 }
                 else if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
-                    //shell(prepareCFAcceptanceTests())
+                    shell(prepareCFAcceptanceTests())
                 }
                 else if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
                     shell(prepareK8SAcceptanceTests())
