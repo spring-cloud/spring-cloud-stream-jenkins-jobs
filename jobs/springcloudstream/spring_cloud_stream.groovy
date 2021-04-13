@@ -52,7 +52,7 @@ new SpringCloudStreamBuildMarker(dsl,
 // true, false, "", null, null, null, false, true, "milestone"
 //new SpringCloudStreamBuildMarker(dsl,
 //        "spring-cloud",
-//        "spring-cloud-stream-binder-aws-kinesis", "master", [:])
+//        "spring-cloud-stream-binder-aws-kinesis", "main", [:])
 //        .deploy()
 
 //Schema registry CI master
@@ -96,13 +96,13 @@ void doMasterMilestoneReleaseBuild(DslFactory dsl){
 }
 
 void doKinesisMilestoneReleaseBuild(DslFactory dsl){
-    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "master", false)
+    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "main", false)
             .deploy(true, false, "",
             null, null, null, false, true, "milestone")
 }
 
 void doKinesisGAReleaseBuild(DslFactory dsl){
-    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "master", false)
+    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "main", false)
             .deploy(true, false, "",
             null, null, null, false, true, "ga")
 }
@@ -110,7 +110,7 @@ void doKinesisGAReleaseBuild(DslFactory dsl){
 void doMasterSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                       'spring-cloud-stream-binder-rabbit':'master',
-                                                      'spring-cloud-stream-binder-aws-kinesis':'master'], false, "")
+                                                      'spring-cloud-stream-binder-aws-kinesis':'main'], false, "")
 }
 
 void doHorshamSnapshotBuild(DslFactory dsl) {
