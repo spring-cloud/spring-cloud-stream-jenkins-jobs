@@ -7,7 +7,7 @@ job('spring-cloud-stream-seed') {
             remote {
                 github('spring-cloud/spring-cloud-stream-jenkins-jobs')
             }
-            branch('master')
+            branch('main')
         }
     }
     steps {

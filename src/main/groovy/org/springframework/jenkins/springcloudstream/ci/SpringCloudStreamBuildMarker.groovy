@@ -34,7 +34,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.envVariables = envVariables
     }
 
-    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild = "master", boolean ghPushTrigger = true) {
+    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild = "main", boolean ghPushTrigger = true) {
         this.dsl = dsl
         this.organization = organization
         this.project = project
@@ -86,7 +86,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
                     maskPasswords()
                     credentialsBinding {
-                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmain")
                         file('GOOGLE_APPLICATION_CREDENTIALS', "scdf-acceptance-tests")
                     }
                 }
@@ -110,8 +110,8 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             steps {
                 if (project.equals("spring-cloud-stream-samples")) {
                     shell(cleanAndPackage())
-                    //run e2e tests on master and release trains higher than Elmhurst
-                    if (branchToBuild.equals("master") || branchToBuild.charAt(0) > 'E') {
+                    //run e2e tests on main and release trains higher than Elmhurst
+                    if (branchToBuild.equals("main") || branchToBuild.charAt(0) > 'E') {
                         //shell(scriptToExecute("samples-e2e-tests", "runSamplesE2ETests.sh"))
                     }
                 }
@@ -134,7 +134,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
             }
             configure {
-//                if (branchToBuild.equals("master") && docsBuild && (project.equals("spring-cloud-stream-binder-kafka") || project.equals("spring-cloud-stream-binder-rabbit")
+//                if (branchToBuild.equals("main") && docsBuild && (project.equals("spring-cloud-stream-binder-kafka") || project.equals("spring-cloud-stream-binder-rabbit")
 //                                 || project.equals("spring-cloud-stream")) ) {
 //                    artifactoryMavenBuild(it as Node) {
 //                        mavenVersion(maven35())

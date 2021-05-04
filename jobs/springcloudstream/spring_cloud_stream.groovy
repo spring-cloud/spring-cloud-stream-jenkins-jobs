@@ -38,13 +38,13 @@ doBrooklynSnapshotBuild(dsl)
 // Google PubSub Binders builds
 new SpringCloudStreamBuildMarker(dsl, 
                                  "spring-cloud", 
-                                 "spring-cloud-stream-binder-google-pubsub", "master", [:])
+                                 "spring-cloud-stream-binder-google-pubsub", "main", [:])
                       .deploy()
 
 // JMS Binders builds
 new SpringCloudStreamBuildMarker(dsl,
         "spring-cloud",
-        "spring-cloud-stream-binder-jms", "master", [:])
+        "spring-cloud-stream-binder-jms", "main", [:])
         .deploy()
 
 // AWS Kinesis Binders builds
@@ -55,8 +55,8 @@ new SpringCloudStreamBuildMarker(dsl,
 //        "spring-cloud-stream-binder-aws-kinesis", "main", [:])
 //        .deploy()
 
-//Schema registry CI master
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-registry", "master", true)
+//Schema registry CI main
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-schema-registry", "main", true)
         .deploy(true, false,"spring-cloud-schema-registry")
 
 //Schema registry CI 1.0.x
@@ -68,10 +68,10 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud",  "spring-cloud-stream-bind
         .deploy(true, false,"")
 
 //No GH Trigger for acceptance tests
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "stream-applications-acceptance-tests", "master", false)
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "stream-applications-acceptance-tests", "main", false)
         .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
 
-//new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "master", false)
+//new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-acceptance-tests", "main", false)
 //        .deploy(false, false,"spring-cloud-stream-k8s-acceptance-tests")
 
 // 0.11 Kafka build
@@ -84,14 +84,14 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binde
 
 
 void doMasterGAReleaseBuild(DslFactory dsl){
-    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                  'spring-cloud-stream-binder-rabbit':'master'], true, "ga")
+    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'main',
+                                                  'spring-cloud-stream-binder-rabbit':'main'], true, "ga")
 
 }
 
 void doMasterMilestoneReleaseBuild(DslFactory dsl){
-    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                      'spring-cloud-stream-binder-rabbit':'master'], true, "milestone")
+    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'main',
+                                                      'spring-cloud-stream-binder-rabbit':'main'], true, "milestone")
 
 }
 
@@ -108,8 +108,8 @@ void doKinesisGAReleaseBuild(DslFactory dsl){
 }
 
 void doMasterSnapshotBuild(DslFactory dsl){
-    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
-                                                      'spring-cloud-stream-binder-rabbit':'master',
+    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'main',
+                                                      'spring-cloud-stream-binder-rabbit':'main',
                                                       'spring-cloud-stream-binder-aws-kinesis':'main'], false, "")
 }
 

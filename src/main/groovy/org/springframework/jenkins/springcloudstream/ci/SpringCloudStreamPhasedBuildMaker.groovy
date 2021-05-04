@@ -14,10 +14,10 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         this.dsl = dsl
     }
 
-    void build(String coreBranch = 'master', String releaseTrainBranch = 'master',
+    void build(String coreBranch = 'main', String releaseTrainBranch = 'main',
                String groupName = 'spring-cloud-stream-builds', Map<String, String> binders,
                boolean isRelease, String releaseType,
-               String sampleRepoVersion = 'master') {
+               String sampleRepoVersion = 'main') {
         def bindersCopy = [:]
         bindersCopy << binders
         buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch, isRelease, releaseType, sampleRepoVersion)
@@ -62,7 +62,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                 }
                 if (!isRelease) {
                     //samples are enabled for Ditmars and above
-                    if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) >= 'D') {
+                    if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) >= 'D') {
                         phase('spring-cloud-stream-samples-phase') {
                             String prefixedProjectName = prefixJob("spring-cloud-stream-samples")
                             phaseJob("${prefixedProjectName}-${sampleRepoVersion}-ci".toString()) {
@@ -70,7 +70,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                             }
                         }
                         //Acceptance tests are only enabled for Master or release trains starting from Fishtown.
-//                        if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) >= 'F') {
+//                        if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) >= 'F') {
 //                            phase('spring-cloud-stream-acceptance-tests') {
 //                                String prefixedProjectName = prefixJob("spring-cloud-stream")
 //                                phaseJob("${prefixedProjectName}-local-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
@@ -91,7 +91,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                              boolean isRelease, String releaseType,
                              String sampleRepoVersion) {
 
-        //release is only supported on the master branch
+        //release is only supported on the main branch
 
         if (isRelease) {
             //core build
@@ -168,7 +168,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
                     .deploy(false, false, "")
             //Acceptance tests are only enabled for Master or release trains starting from Fishtown.
-//            if (sampleRepoVersion.equals("master") || sampleRepoVersion.charAt(0) > 'E') {
+//            if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) > 'E') {
 //                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
 //                        .deploy(false, false, "spring-cloud-stream-local-acceptance-tests")
 //                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
