@@ -36,8 +36,8 @@ doBrooklynSnapshotBuild(dsl)
 //        "1.0.x", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy(true, false, "clean deploy -Pfull,spring")
 
 // Google PubSub Binders builds
-new SpringCloudStreamBuildMarker(dsl, 
-                                 "spring-cloud", 
+new SpringCloudStreamBuildMarker(dsl,
+                                 "spring-cloud",
                                  "spring-cloud-stream-binder-google-pubsub", "main", [:])
                       .deploy()
 
@@ -114,7 +114,7 @@ void doMasterSnapshotBuild(DslFactory dsl){
 }
 
 void doHorshamSnapshotBuild(DslFactory dsl) {
-    // Spring Cloud Stream Ditmars builds (2.0.x)
+    // Spring Cloud Stream Horsham builds (2.0.x)
     new SpringCloudStreamPhasedBuildMaker(dsl).build("3.0.x", "Horsham", "spring-cloud-stream-Horsham-builds",
             ['spring-cloud-stream-binder-kafka' : '3.0.x',
              'spring-cloud-stream-binder-rabbit': '3.0.x'], false, "", "Horsham")

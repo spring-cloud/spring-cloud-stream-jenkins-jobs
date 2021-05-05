@@ -49,7 +49,7 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
     String cleanAndPackage() {
         //just build
         return """
-                ./mvnw clean package
+                ./mvnw clean package -U
             """
     }
 
