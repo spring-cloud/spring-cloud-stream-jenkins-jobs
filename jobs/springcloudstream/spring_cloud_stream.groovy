@@ -17,6 +17,8 @@ DslFactory dsl = this
 
 doMasterSnapshotBuild(dsl)
 
+do31xSnapshotBuild(dsl)
+
 doHorshamSnapshotBuild(dsl)
 
 doGermantownSnapshotBuild(dsl)
@@ -114,10 +116,17 @@ void doMasterSnapshotBuild(DslFactory dsl){
 }
 
 void doHorshamSnapshotBuild(DslFactory dsl) {
-    // Spring Cloud Stream Horsham builds (2.0.x)
+    // Spring Cloud Stream Horsham builds (3.0.x)
     new SpringCloudStreamPhasedBuildMaker(dsl).build("3.0.x", "Horsham", "spring-cloud-stream-Horsham-builds",
             ['spring-cloud-stream-binder-kafka' : '3.0.x',
              'spring-cloud-stream-binder-rabbit': '3.0.x'], false, "", "Horsham")
+}
+
+void do31xSnapshotBuild(DslFactory dsl) {
+    // Spring Cloud Stream 3.1.x builds
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("3.1.x", "3.1.x", "spring-cloud-stream-31x-builds",
+            ['spring-cloud-stream-binder-kafka' : '3.1.x',
+             'spring-cloud-stream-binder-rabbit': '3.1.x'], false, "", "main")
 }
 
 void doGermantownSnapshotBuild(DslFactory dsl) {
