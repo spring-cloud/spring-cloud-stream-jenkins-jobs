@@ -80,7 +80,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
                 if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
                     credentialsBinding {
-                        usernamePassword('CF_E2E_TEST_SPRING_CLOUD_STREAM_USER', 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD', "new-navy-PCF-Admin")
+                        usernamePassword('CF_E2E_TEST_SPRING_CLOUD_STREAM_USER', 'CF_E2E_TEST_SPRING_CLOUD_STREAM_PASSWORD', "lahabra-height-pcf-Admin")
                     }
                 }
                 if (ciPlanName.equals("spring-cloud-stream-k8s-acceptance-tests")) {
