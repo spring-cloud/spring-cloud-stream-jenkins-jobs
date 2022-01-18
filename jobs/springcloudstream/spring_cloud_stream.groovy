@@ -133,7 +133,7 @@ void do31xSnapshotBuild(DslFactory dsl) {
 
 void do32xSnapshotBuild(DslFactory dsl) {
     // Spring Cloud Stream 3.2.x builds
-    new SpringCloudStreamPhasedBuildMaker(dsl).build("3.2.x", "3.2.x", "spring-cloud-stream-4x-builds",
+    new SpringCloudStreamPhasedBuildMaker(dsl).build("3.2.x", "3.2.x", "spring-cloud-stream-32x-builds",
             ['spring-cloud-stream-binder-kafka' : '3.2.x',
              'spring-cloud-stream-binder-rabbit': '3.2.x'], false, "", "main")
 }
