@@ -60,7 +60,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     cron "0 5 * * *"
                 }
             }
-            if (branchToBuild.equals("4.x")) {
+            if (branchToBuild.equals("main")) {
                 jdk jdk17()
             }
             else {
