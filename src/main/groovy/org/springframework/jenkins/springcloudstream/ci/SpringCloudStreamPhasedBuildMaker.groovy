@@ -23,7 +23,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch, isRelease, releaseType, sampleRepoVersion)
         dsl.multiJob(groupName) {
             steps {
-                phase('spring-cloud-stream-core-phase', 'COMPLETED') {
+                phase('spring-cloud-stream-phase', 'COMPLETED') {
                     if (!isRelease) {
                         triggers {
                             githubPush()
@@ -54,12 +54,12 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         }
                     }
                 }
-                phase('spring-cloud-stream-starters-phase') {
-                    String prefixedProjectName = prefixJob("spring-cloud-stream-starters")
-                    phaseJob("${prefixedProjectName}-${releaseTrainBranch}-ci".toString()) {
-                        currentJobParameters()
-                    }
-                }
+//                phase('spring-cloud-stream-starters-phase') {
+//                    String prefixedProjectName = prefixJob("spring-cloud-stream-starters")
+//                    phaseJob("${prefixedProjectName}-${releaseTrainBranch}-ci".toString()) {
+//                        currentJobParameters()
+//                    }
+//                }
                 if (!isRelease) {
                     //samples are enabled for Ditmars and above
                     if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) >= 'D') {
@@ -103,41 +103,43 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
             //core build
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream", coreBranch, [:])
-                    .deploy()
+                    .deploy(true, false, "",
+                        "binders/rabbit-binder/ci-docker-compose", "docker-compose-RABBITMQ.sh",
+                        "docker-compose-RABBITMQ-stop.sh")
         }
 
         //binder builds
-        def kafkaBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-kafka" }?.value
-        if (kafkaBinderBranch) {
-            if (isRelease) {
-                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
-                        .deploy(true, false, "",
-                        null, null, null, false, true, releaseType)
-            }
-            else {
-
-                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
-                        .deploy()
-            }
-
-            binders.remove('spring-cloud-stream-binder-kafka')
-        }
-        def rabbitBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-rabbit" }?.value
-        if (rabbitBinderBranch) {
-            if (isRelease) {
-                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
-                        .deploy(true, false, "",
-                        "ci-docker-compose", "docker-compose-RABBITMQ.sh",
-                        "docker-compose-RABBITMQ-stop.sh", false, true, releaseType)
-            }
-            else {
-                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
-                        .deploy(true, false, "",
-                        "ci-docker-compose", "docker-compose-RABBITMQ.sh",
-                        "docker-compose-RABBITMQ-stop.sh")
-            }
-            binders.remove('spring-cloud-stream-binder-rabbit')
-        }
+//        def kafkaBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-kafka" }?.value
+//        if (kafkaBinderBranch) {
+//            if (isRelease) {
+//                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
+//                        .deploy(true, false, "",
+//                        null, null, null, false, true, releaseType)
+//            }
+//            else {
+//
+//                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
+//                        .deploy()
+//            }
+//
+//            binders.remove('spring-cloud-stream-binder-kafka')
+//        }
+//        def rabbitBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-rabbit" }?.value
+//        if (rabbitBinderBranch) {
+//            if (isRelease) {
+//                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
+//                        .deploy(true, false, "",
+//                        "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+//                        "docker-compose-RABBITMQ-stop.sh", false, true, releaseType)
+//            }
+//            else {
+//                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
+//                        .deploy(true, false, "",
+//                        "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+//                        "docker-compose-RABBITMQ-stop.sh")
+//            }
+//            binders.remove('spring-cloud-stream-binder-rabbit')
+//        }
         def kinesisBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-aws-kinesis" }?.value
         if (kinesisBinderBranch) {
             if (isRelease) {
@@ -154,15 +156,15 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         }
         binders.each { k, v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy() }
         //starter builds
-        if (isRelease) {
-            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-                    .deploy(false, false, "", null, null, null, true,
-            true, releaseType)
-        }
-        else {
-            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-                    .deploy(false, false, "", null, null, null, true)
-        }
+//        if (isRelease) {
+//            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
+//                    .deploy(false, false, "", null, null, null, true,
+//            true, releaseType)
+//        }
+//        else {
+//            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
+//                    .deploy(false, false, "", null, null, null, true)
+//        }
 
         if (!isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)

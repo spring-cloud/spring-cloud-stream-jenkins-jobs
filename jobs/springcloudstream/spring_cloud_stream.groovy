@@ -112,9 +112,7 @@ void doKinesisGAReleaseBuild(DslFactory dsl){
 }
 
 void doMasterSnapshotBuild(DslFactory dsl){
-    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'main',
-                                                      'spring-cloud-stream-binder-rabbit':'main',
-                                                      'spring-cloud-stream-binder-aws-kinesis':'main'], false, "")
+    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-aws-kinesis':'main'], false, "")
 }
 
 void doHorshamSnapshotBuild(DslFactory dsl) {
