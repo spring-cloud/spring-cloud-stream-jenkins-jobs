@@ -54,33 +54,23 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         }
                     }
                 }
-//                phase('spring-cloud-stream-starters-phase') {
-//                    String prefixedProjectName = prefixJob("spring-cloud-stream-starters")
-//                    phaseJob("${prefixedProjectName}-${releaseTrainBranch}-ci".toString()) {
-//                        currentJobParameters()
-//                    }
-//                }
+                if (coreBranch.equals("3.1.x")) {
+                    phase('spring-cloud-stream-starters-phase') {
+                        String prefixedProjectName = prefixJob("spring-cloud-stream-starters")
+                        phaseJob("${prefixedProjectName}-${releaseTrainBranch}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                    }
+                }
                 if (!isRelease) {
                     //samples are enabled for Ditmars and above
-                    if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) >= 'D') {
+                    if (sampleRepoVersion.equals("main") || sampleRepoVersion.equals("3.2.x")) {
                         phase('spring-cloud-stream-samples-phase') {
                             String prefixedProjectName = prefixJob("spring-cloud-stream-samples")
                             phaseJob("${prefixedProjectName}-${sampleRepoVersion}-ci".toString()) {
                                 currentJobParameters()
                             }
                         }
-                        //Acceptance tests are only enabled for Master or release trains starting from Fishtown.
-//                        if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) >= 'F') {
-//                            phase('spring-cloud-stream-acceptance-tests') {
-//                                String prefixedProjectName = prefixJob("spring-cloud-stream")
-//                                phaseJob("${prefixedProjectName}-local-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
-//                                    currentJobParameters()
-//                                }
-//                                phaseJob("${prefixedProjectName}-cf-acceptance-tests-${sampleRepoVersion}-ci".toString()) {
-//                                    currentJobParameters()
-//                                }
-//                            }
-//                        }
                     }
                 }
             }
@@ -102,7 +92,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         else {
 
             //core build
-            if (coreBranch.equals("main")) {
+            if (coreBranch.equals("main") || coreBranch.equals("3.2.x")) {
                 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream", coreBranch, [:])
                         .deploy(true, false, "",
                                 "binders/rabbit-binder/ci-docker-compose", "docker-compose-RABBITMQ.sh",
@@ -162,26 +152,21 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         }
         binders.each { k, v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy() }
         //starter builds
-//        if (isRelease) {
-//            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-//                    .deploy(false, false, "", null, null, null, true,
-//            true, releaseType)
-//        }
-//        else {
-//            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
-//                    .deploy(false, false, "", null, null, null, true)
-//        }
+        if (coreBranch.equals("3.1.x")) {
+            if (isRelease) {
+                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
+                        .deploy(false, false, "", null, null, null, true,
+                true, releaseType)
+            }
+            else {
+                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
+                        .deploy(false, false, "", null, null, null, true)
+            }
+        }
 
         if (!isRelease) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
                     .deploy(false, false, "")
-            //Acceptance tests are only enabled for Master or release trains starting from Fishtown.
-//            if (sampleRepoVersion.equals("main") || sampleRepoVersion.charAt(0) > 'E') {
-//                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
-//                        .deploy(false, false, "spring-cloud-stream-local-acceptance-tests")
-//                new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-samples", sampleRepoVersion)
-//                        .deploy(false, false, "spring-cloud-stream-cf-acceptance-tests")
-//            }
         }
     }
 }
