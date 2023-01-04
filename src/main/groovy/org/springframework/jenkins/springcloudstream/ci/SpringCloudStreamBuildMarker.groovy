@@ -70,6 +70,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 colorizeOutput()
                 maskPasswords()
                 environmentVariables(envVariables)
+                configFiles {
+                    file(mavenSettingsId()) {
+                        targetLocation('${HOME}/.m2/settings.xml')
+                    }
+                }
                 timeout {
                     noActivity(300)
                     failBuild()

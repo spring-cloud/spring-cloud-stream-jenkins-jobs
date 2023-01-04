@@ -12,9 +12,9 @@ DslFactory dsl = this
 
 doMainSnapshotBuild(dsl)
 
-do31xSnapshotBuild(dsl)
+//do31xSnapshotBuild(dsl)
 
-do32xSnapshotBuild(dsl)
+//do32xSnapshotBuild(dsl)
 
 // AWS Kinesis Binders builds
 // Use this as the milestone build parameters into deploy method

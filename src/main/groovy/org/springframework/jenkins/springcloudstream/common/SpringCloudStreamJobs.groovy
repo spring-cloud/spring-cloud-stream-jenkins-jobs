@@ -180,4 +180,8 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
             ./mvnw -U clean package -DskipTests docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
         """
     }
+
+    String mavenSettingsId() {
+        return 'maven-settings-spring-cloud'
+    }
 }
