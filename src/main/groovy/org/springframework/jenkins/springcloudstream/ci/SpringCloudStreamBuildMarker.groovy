@@ -70,6 +70,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 colorizeOutput()
                 maskPasswords()
                 environmentVariables(envVariables)
+                credentialsBinding {
+                    usernamePassword('jenkins.spring.io', 'repo_spring_io-jenkins-release-token', "repo_spring_io-jenkins-release-token")
+                }
                 configFiles {
                     file(mavenSettingsId()) {
                         targetLocation('${HOME}/.m2/settings.xml')
