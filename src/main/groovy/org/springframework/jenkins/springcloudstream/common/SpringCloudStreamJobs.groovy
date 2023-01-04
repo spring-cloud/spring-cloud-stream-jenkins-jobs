@@ -184,4 +184,16 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
     String mavenSettingsId() {
         return 'maven-settings-spring-cloud'
     }
+
+    String buildUserNameEnvVar() {
+        return 'ARTIFACTORY_USERNAME'
+    }
+
+    String buildPasswordEnvVar() {
+        return 'ARTIFACTORY_PASSWORD'
+    }
+
+    String buildCredentialId() {
+        return '02bd1690-b54f-4c9f-819d-a77cb7a9822c'
+    }
 }
