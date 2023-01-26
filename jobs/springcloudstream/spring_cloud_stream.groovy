@@ -8,9 +8,9 @@ DslFactory dsl = this
 
 //doKinesisMilestoneReleaseBuild(dsl)
 
-doKinesisGAReleaseBuild(dsl)
+//doKinesisGAReleaseBuild(dsl)
 
-//doMainSnapshotBuild(dsl)
+doMainSnapshotBuild(dsl)
 
 //do31xSnapshotBuild(dsl)
 
