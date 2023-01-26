@@ -62,10 +62,10 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                             set +x
                             export temporaryDir
 
-                            echo -e '#!/bin/bash \\n echo $FOO_PASSPHRASE | /usr/bin/gpg --batch --no-tty --passphrase-fd 0 "\$@"' > "${temporaryDir}/our_gpg.sh"
-                            chmod +x "${temporaryDir}/our_gpg.sh"
+                            echo -e '#!/bin/bash \\n echo \$$FOO_PASSPHRASE | /usr/bin/gpg --batch --no-tty --passphrase-fd 0 "\$@"' > "\$${temporaryDir}/our_gpg.sh"
+                            chmod +x "\$${temporaryDir}/our_gpg.sh"
 
-                            ./mvnw clean deploy -Dgpg.executable="$temporaryDir"/our_gpg.sh -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                            ./mvnw clean deploy -Dgpg.executable="\$$temporaryDir"/our_gpg.sh -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                 gpgPubRing()
             }" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${
                 sonatypePassword()
