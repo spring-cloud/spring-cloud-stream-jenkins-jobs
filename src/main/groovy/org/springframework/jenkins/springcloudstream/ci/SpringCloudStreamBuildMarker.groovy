@@ -90,7 +90,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         file('FOO_SEC', "spring-signing-secring.gpg")
                         file('FOO_PUB', "spring-signing-pubring.gpg")
                         string('FOO_PASSPHRASE', "spring-gpg-passphrase")
-                        usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
+                        usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-s01-token")
                     }
                 }
                 if (ciPlanName.equals("spring-cloud-stream-cf-acceptance-tests")) {
