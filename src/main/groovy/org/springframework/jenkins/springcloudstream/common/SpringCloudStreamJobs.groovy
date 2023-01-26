@@ -60,7 +60,12 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
                         if [ \$lines -eq 0 ]; then
                             set +x
-                            ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                            export temporaryDir
+
+                            echo -e '#!/bin/bash \\n echo $FOO_PASSPHRASE | /usr/bin/gpg --batch --no-tty --passphrase-fd 0 "\$@"' > "${temporaryDir}/our_gpg.sh"
+                            chmod +x "${temporaryDir}/our_gpg.sh"
+
+                            ./mvnw clean deploy -Dgpg.executable="$temporaryDir"/our_gpg.sh -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                 gpgPubRing()
             }" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${
                 sonatypePassword()
