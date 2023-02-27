@@ -11,6 +11,7 @@ DslFactory dsl = this
 //doKinesisGAReleaseBuild(dsl)
 
 doMainSnapshotBuild(dsl)
+kinesis40WIPBuild(dsl)
 
 //do31xSnapshotBuild(dsl)
 
@@ -46,6 +47,10 @@ void doKinesisGAReleaseBuild(DslFactory dsl){
 
 void doMainSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-aws-kinesis':'main'], false, "")
+}
+
+void kinesis40WIPBuild(DslFactory dsl){
+    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-aws-kinesis':'4.0-WIP'], false, "")
 }
 
 void do31xSnapshotBuild(DslFactory dsl) {
