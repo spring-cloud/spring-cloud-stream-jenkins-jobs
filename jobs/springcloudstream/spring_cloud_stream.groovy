@@ -6,12 +6,12 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-doKinesisMilestoneReleaseBuild(dsl)
+//doKinesisMilestoneReleaseBuild(dsl)
 
 //doKinesisGAReleaseBuild(dsl)
 
 doMainSnapshotBuild(dsl)
-//kinesis40WIPBuild(dsl)
+kinesis40WIPBuild(dsl)
 
 //do31xSnapshotBuild(dsl)
 
