@@ -11,7 +11,6 @@ DslFactory dsl = this
 //doKinesisGAReleaseBuild(dsl)
 
 doMainSnapshotBuild(dsl)
-kinesis40WIPBuild(dsl)
 
 //do31xSnapshotBuild(dsl)
 
@@ -34,7 +33,7 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "stream-applications-accep
         .deploy(false, false,"spring-cloud-stream-cf-acceptance-tests")
 
 void doKinesisMilestoneReleaseBuild(DslFactory dsl){
-    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "4.0-WIP", false)
+    new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-aws-kinesis", "main", false)
             .deploy(true, false, "",
             null, null, null, false, true, "milestone")
 }
@@ -47,10 +46,6 @@ void doKinesisGAReleaseBuild(DslFactory dsl){
 
 void doMainSnapshotBuild(DslFactory dsl){
     new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-aws-kinesis':'main'], false, "")
-}
-
-void kinesis40WIPBuild(DslFactory dsl){
-    new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-aws-kinesis':'4.0-WIP'], false, "")
 }
 
 void do31xSnapshotBuild(DslFactory dsl) {
