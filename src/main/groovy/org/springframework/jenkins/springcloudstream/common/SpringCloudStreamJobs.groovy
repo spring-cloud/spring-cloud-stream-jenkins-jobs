@@ -57,17 +57,17 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
 
         if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
             return """
-                        lines=$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
-                        if [ $lines -eq 0 ]; then
+                        lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
+                        if [ \$lines -eq 0 ]; then
                             set +x
                             
                             export temporaryDir=/tmp
 
-			    echo -e '#!/bin/bash \n echo $FOO_PASSPHRASE | /usr/bin/gpg --batch --no-tty --passphrase-fd 0 "$@"' > "${temporaryDir}/our_gpg.sh"
-                            echo "FILE GENERATED: ${temporaryDir}/our_gpg.sh"
-			    chmod +x "${temporaryDir}/our_gpg.sh"
+			    echo -e '#!/bin/bash \n echo \$FOO_PASSPHRASE | /usr/bin/gpg --batch --no-tty --passphrase-fd 0 "\$@"' > "\${temporaryDir}/our_gpg.sh"
+                            echo "FILE GENERATED: \${temporaryDir}/our_gpg.sh"
+			    chmod +x "\${temporaryDir}/our_gpg.sh"
                             
-                            ./mvnw clean deploy -Dgpg.executable="$temporaryDir"/our_gpg.sh -Dgpg.secretKeyring="$FOO_SEC" -Dgpg.publicKeyring="$FOO_PUB" -Dgpg.passphrase="$FOO_PASSPHRASE" -DSONATYPE_USER="$SONATYPE_USER" -DSONATYPE_PASSWORD="$SONATYPE_PASSWORD" -Pcentral -U
+                            ./mvnw clean deploy -Dgpg.executable="\$temporaryDir"/our_gpg.sh -Dgpg.secretKeyring="\$FOO_SEC" -Dgpg.publicKeyring="\$FOO_PUB" -Dgpg.passphrase="\$FOO_PASSPHRASE" -DSONATYPE_USER="\$SONATYPE_USER" -DSONATYPE_PASSWORD="\$SONATYPE_PASSWORD" -Pcentral -U
                             set -x
                         else
                             echo "Non release versions found. Aborting build"
